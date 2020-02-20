@@ -128,20 +128,29 @@ var app = new Vue({
 
 
     mounted(){
+      _self = this;
       navigator.geolocation.getCurrentPosition(position =>{
         this.location.lat = position.coords.latitude
         this.location.lon = position.coords.longitude
         
         //console.log(this.searchRadius)
         this.map = L.map('mapid').setView([this.location.lat, this.location.lon], 18);
-  
         L.tileLayer('http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-
         ).addTo(this.map);
-  
-        
-  
         L.marker([this.location.lat, this.location.lon]).addTo(this.map); 
+
+        this.map.on('click', function(ev) {
+           
+          console.log(ev.latlng)
+
+          let loc={
+              lat: ev.latlng.lat,
+              lon: ev.latlng.lng
+           }
+          
+        _self.location = loc
+        });
+
         this.buscarPontos()
       })
       
