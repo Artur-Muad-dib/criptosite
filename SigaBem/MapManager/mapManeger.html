@@ -26,21 +26,35 @@
             <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
             <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
         </nav>
-        <div class="container" id="app">
+        <div class="container-fluid" id="app">
             <div class="input-group m-3">
                 <input type="text" class="form-control form-control-sigabem" v-model="pesquisa" placeholder="Digite o local desejado" aria-label="Recipient's username" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary btn-outline-sigabem" v-on:click="redirecionar()" type="button">Buscar</button>
                 </div>
             </div>
-            
-            <div class="containerMap">
-                
-                <div>
-                    <div class="spinner-border text-success loading" :style="{ visibility : loading}" role="status">
+            <div  class="grade">
+
+                <div class="containerMap" :class='{marginMap: estimativas.length}'>
+                    
+                    <div>
+                        <div class="spinner-border text-success loading" :style="{ visibility : loading}" role="status">
+                        </div>
+                        <div id="mapid"> </div>
                     </div>
-                    <div id="mapid"> </div>
                 </div>
+                <transition name="fade">
+                    <div v-if="estimativas.length" class="list-group estimativas">
+                        <a v-for="estimativa in estimativas" href="#" class="list-group-item list-group-item-action flex-column align-items-start linha-item">
+                            <h5 class="mb-1">{{estimativa.nome}}</h5>
+                            <small>{{estimativa.chegada}}</small>
+                            
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start linha-item-close" v-on:click="estimativas = []" >
+                            <h5 class="mb-1">Fechar</h5>
+                        </a>
+                    </div>
+                </transition>
             </div>
         </div>
     </div>

@@ -6,14 +6,21 @@ var app = new Vue({
     data: {
       todos: '',
       map: '',
-      searchRadius: "600",
+      searchRadius: "350",
       location:{
         lat: '',
         lon: ''
       },
       loading: "visible",
       pesquisa: "",
-      paradas : []
+      paradas : [],
+      userIcon: L.icon({
+        iconUrl: '../assets/userLocal.png',
+        iconSize:     [50, 50], // size of the icon
+        iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+      }),
+      estimativas: [],
     },// end data
 
 
@@ -25,7 +32,46 @@ var app = new Vue({
         let Lparadas = [];
         valor.map(stop => {
             if(stop){
-                Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon]).bindPopup(stop.text));
+                Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon])
+                        .on('click', ev =>{
+                          _self.estimativas=[{nome: "Carregando parada...", chegada: ""}]
+                          axios.get(`http://200.238.105.143:85/public/recife/stop/${stop.text}/estimations`)
+                          .then(res =>{
+                            
+                            let estimativas = res.data.map(estimativa => {
+                                  return{
+                                    linha: estimativa.line,
+                                    chegada: estimativa.arrivalTime
+                                  }
+                                })
+
+                            axios.get(`http://200.238.105.143:85/public/recife/lines`)
+                                 .then(linhas =>{
+                                  estimativas = estimativas.map(estimativa=>{
+                                                let linha = linhas.data.find(cadaLinha =>{
+                                                  return cadaLinha.id == estimativa.linha
+                                                })
+
+                                                let hora = eval("new " + estimativa.chegada.replace("/", "").replace("/", ""))
+                                                hora = hora.getHours()+":"+ (hora.getMinutes() > 9 ? hora.getMinutes() : "0" + hora.getMinutes());
+
+                                                return{
+                                                  linha: estimativa.linha,
+                                                  chegada: hora,
+                                                  nome: linha.nombre.trim()
+                                                }
+                                              })
+                                  if(estimativas.length){
+                                    _self.estimativas = estimativas
+                                  }else{
+                                    _self.estimativas = [{nome: "Sem previsões para parada", chegada: ""}]
+                                  }
+                                 })
+
+                          }) 
+                        })
+                        )
+                        
             }         
         }) 
 
@@ -45,7 +91,7 @@ var app = new Vue({
 
       },
       location:function(atual){
-          this.map.setView([this.location.lat, this.location.lon], 16);
+          this.map.setView([this.location.lat, this.location.lon], 17);
           this.buscarPontos();
       },
       
@@ -94,6 +140,8 @@ var app = new Vue({
          }); 
       },
 
+      
+
       redirecionar(){
           console.log(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
           axios.get(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
@@ -116,16 +164,17 @@ var app = new Vue({
 
 
 
+
     mounted(){
       _self = this;
       navigator.geolocation.getCurrentPosition(position =>{
         this.location.lat = position.coords.latitude
         this.location.lon = position.coords.longitude
 
-        this.map = L.map('mapid').setView([this.location.lat, this.location.lon], 16);
+        this.map = L.map('mapid').setView([this.location.lat, this.location.lon], 17);
         L.tileLayer('http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
         ).addTo(this.map);
-        L.marker([this.location.lat, this.location.lon]).addTo(this.map); 
+        L.marker([this.location.lat, this.location.lon], {icon: this.userIcon}).addTo(this.map); 
 
         this.map.on('click', function(ev) {
           let loc={
