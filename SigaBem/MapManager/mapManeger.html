@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
-    <link rel="stylesheet" href="SigaBem.css">
+    <link rel="stylesheet" href="../assets/SigaBem.css">
     <link rel="stylesheet" href="Map.css">
 
 
@@ -23,7 +23,7 @@
     <div id="main">
         <nav class="navbar navbar-dark bg-sigabem justify-content-between">
             <span class="navbar-toggler-icon" id="toggle-icon" onclick="openNav()"></span>
-            <a class="navbar-brand text-light m-auto" href="#">SigaBem</a>
+            <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
             <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
         </nav>
         <div class="container" id="app">
@@ -35,10 +35,12 @@
             </div>
             
             <div class="containerMap">
-                <div class="spinner-border text-success loading" :style="{ visibility : loading}" role="status">
-
+                
+                <div>
+                    <div class="spinner-border text-success loading" :style="{ visibility : loading}" role="status">
+                    </div>
+                    <div id="mapid"> </div>
                 </div>
-                <div id="mapid"> </div>
             </div>
         </div>
     </div>

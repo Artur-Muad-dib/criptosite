@@ -1,18 +1,3 @@
-@font-face {
-    font-family: fontSigaBem;
-    src: url("../coolvetica rg.ttf");
-  }
-  
-nav{
-    font-family: fontSigaBem;
-    letter-spacing: 1px;
-}
-
-
-.bg-sigabem{
-    background-color: #28D8A1 !important;
-}
-
 .containerForm{
     margin-top: 3vh;
 }
