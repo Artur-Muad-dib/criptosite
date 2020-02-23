@@ -25,7 +25,7 @@ $( "#btnLogin" ).click(function() {
     //   $('#errorResponse').removeClass('d-none').addClass('show');
     // })
 
-    window.location.href = "../mapManeger.html"
+    window.location.href = "../MapManager/mapManeger.html"
 
 });
 
