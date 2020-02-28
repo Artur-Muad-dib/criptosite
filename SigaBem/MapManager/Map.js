@@ -4,13 +4,15 @@ var app = new Vue({
     el: '#app',
 
     data: {
+      layers :[],
+      layersExibidas: [],
       todos: '',
       map: '',
       searchRadius: "350",
       location:{
         lat: '',
         lon: ''
-      },
+      },  
       loading: "visible",
       pesquisa: "",
       paradas : [],
@@ -20,6 +22,45 @@ var app = new Vue({
         iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
         popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
       }),
+      LayersIcons: {
+        BusStopIcon: L.icon({
+          iconUrl: '../assets/bus-stop.png',
+          iconSize:     [50, 50], // size of the icon
+          iconAnchor:   [12, 25], // point of the icon which will correspond to marker's location
+          popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        }),
+        AuditivaIcon: L.icon({
+          iconUrl: '../assets/marker-icon-2x-violet.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        }),
+        IntelectualIcon: L.icon({
+          iconUrl: '../assets/marker-icon-2x-blue.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        }),
+        VisualIcon: L.icon({
+          iconUrl: '../assets/marker-icon-2x-red.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        }),
+        FisicaIcon: L.icon({
+          iconUrl: '../assets/marker-icon-2x-green.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        }),
+        MultiplaIcon: L.icon({
+          iconUrl: '../assets/marker-icon-2x-orange.png',
+          iconSize: [25, 41],
+          iconAnchor: [12, 41],
+          popupAnchor: [1, -34],
+        })
+      },
+
       estimativas: [],
     },// end data
 
@@ -32,7 +73,7 @@ var app = new Vue({
         let Lparadas = [];
         valor.map(stop => {
             if(stop){
-                Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon])
+                Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon], {icon: this.LayersIcons.BusStopIcon})
                         .on('click', ev =>{
                           _self.estimativas=[{nome: "Carregando parada...", chegada: ""}]
                           axios.get(`http://200.238.105.143:85/public/recife/stop/${stop.text}/estimations`)
@@ -94,6 +135,24 @@ var app = new Vue({
           this.map.setView([this.location.lat, this.location.lon], 17);
           this.buscarPontos();
       },
+      layersExibidas:function(layersAtuais, layersAntigas){
+        // let arr3;
+        
+        // if(layersAtuais.length > layersAntigas.length){
+        //   arr3 = layersAtuais.filter( x => { 
+        //     return JSON.stringify(layersAntigas).indexOf(JSON.stringify(x)) < 0;
+        //   });
+        //   arr3.map(layer => layer.addTo(this.map))
+        // }else{
+        //   arr3 = layersAntigas.filter( x => { 
+        //     return JSON.stringify(layersAtuais).indexOf(JSON.stringify(x)) < 0;
+        //   });
+        //   arr3.map(layer => layer.addTo(this.map))
+        layersAntigas.map(layer => this.map.removeLayer(layer))
+        layersAtuais.map(layer => layer.addTo(this.map))
+        }
+
+      
       
     },//end watch
 
@@ -157,6 +216,29 @@ var app = new Vue({
 
           })
         
+      },
+
+      arcLayerMount(camadaNumber, layername, Licon, colorIcon){
+        let layer = [];
+        axios.get(`https://thabit2.recife.ifpe.local/server/rest/services/sigabem/SIGABEM_2/MapServer/${camadaNumber}/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=user_nome_&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson`)
+        .then(response =>{
+          response.data.features.map(persona =>{
+            if(persona.geometry.y && persona.geometry.x){
+              try{
+                layer.push(L.marker([persona.geometry.y, persona.geometry.x],
+                {icon: Licon}
+                ).bindPopup(persona.attributes.user_nome_))
+              }catch{
+                console.warn(persona.attributes.user_nome_)
+              }
+            }
+          })
+          
+          this.layers.push({name: ""+layername, 
+                            geometry: L.layerGroup(layer),
+                            color: colorIcon})
+          
+        })
       }
 
 
@@ -185,7 +267,32 @@ var app = new Vue({
         _self.location = loc
         });
 
+        this.arcLayerMount(12,
+        "Auditiva",
+        this.LayersIcons.AuditivaIcon, "#9C2BCB"
+        )
+
+        this.arcLayerMount(13,
+        "Fisica",
+        this.LayersIcons.FisicaIcon, "#2AAD27")
+
+        this.arcLayerMount(14,
+        "Intelectual",
+        this.LayersIcons.IntelectualIcon, "#2A81CB")
+
+        this.arcLayerMount(15,
+        "Multipla",
+        this.LayersIcons.MultiplaIcon, "#CB8427")
+
+        this.arcLayerMount(16,
+        "Visual",
+        this.LayersIcons.VisualIcon, "#CB2B3E")
+
         this.buscarPontos()
+        
+        
+
+
       })
       
     }//end mounted

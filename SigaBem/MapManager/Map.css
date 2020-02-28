@@ -64,6 +64,13 @@
     
 }
 
+.chackBoxes{
+  color: white;
+  padding: 7px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+}
+
 
 
 /* The side navigation menu */
