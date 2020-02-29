@@ -136,21 +136,9 @@ var app = new Vue({
           this.buscarPontos();
       },
       layersExibidas:function(layersAtuais, layersAntigas){
-        // let arr3;
-        
-        // if(layersAtuais.length > layersAntigas.length){
-        //   arr3 = layersAtuais.filter( x => { 
-        //     return JSON.stringify(layersAntigas).indexOf(JSON.stringify(x)) < 0;
-        //   });
-        //   arr3.map(layer => layer.addTo(this.map))
-        // }else{
-        //   arr3 = layersAntigas.filter( x => { 
-        //     return JSON.stringify(layersAtuais).indexOf(JSON.stringify(x)) < 0;
-        //   });
-        //   arr3.map(layer => layer.addTo(this.map))
         layersAntigas.map(layer => this.map.removeLayer(layer))
         layersAtuais.map(layer => layer.addTo(this.map))
-        }
+      }
 
       
       
@@ -236,8 +224,18 @@ var app = new Vue({
           
           this.layers.push({name: ""+layername, 
                             geometry: L.layerGroup(layer),
-                            color: colorIcon})
+                            color: colorIcon,
+                            checked: false,
+                            Enable: true
+                          })
           
+        }).catch(e =>{
+          this.layers.push({name: "Erro na camada: "+layername, 
+                            geometry: layername+"Undefined",
+                            color: "rgba(170, 0, 0, 0.2)",
+                            checked: false,
+                            Enable: false
+                          })
         })
       }
 

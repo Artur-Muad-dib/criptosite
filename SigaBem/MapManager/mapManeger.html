@@ -34,14 +34,14 @@
                 </div>
             </div>
             <div  class="grade">
-                <div id="checkBoxes">
-                    <div class="form-check form-check-inline chackBoxes" v-for="layer in layers" v-bind:style="{'background-color': layer.color}" >
-                        <input class="form-check-input" type="checkbox" v-model="layersExibidas" id="inlineCheckbox1" :value="layer.geometry">
-                        <label class="form-check-label" for="inlineCheckbox1">{{layer.name}}</label>
-                    </div>
-
-                </div>
                 <div class="containerMap" :class='{marginMap: estimativas.length}'>
+                    <div id="checkBoxes">
+                        <div class="form-check form-check-inline checkBoxes" v-for="layer in layers" v-bind:style="{'background-color': layer.color}"  >
+                            <input class="form-check-input" type="checkbox" v-model="layersExibidas":id="'id' + layer.name":key="layer.name" :value="layer.geometry" :disabled="!layer.Enable">
+                            <label class="form-check-label" >{{layer.name}}</label>
+                        </div>
+    
+                    </div>
                     
                     <div>
                         <div class="spinner-border text-success loading" :style="{ visibility : loading}" role="status">
