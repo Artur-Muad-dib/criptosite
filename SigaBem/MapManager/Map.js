@@ -119,9 +119,9 @@ var app = new Vue({
         let lat = this.location.lat
         let long = this.location.lon
         var circle = L.circle([lat, long], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.3,
+            color: '#28D8A1',
+            fillColor: '#28D8A1',
+            fillOpacity: 0.1,
             radius: this.searchRadius
         })
 
