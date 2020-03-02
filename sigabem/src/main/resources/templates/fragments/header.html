@@ -1,0 +1,147 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	<head>
+	
+		<!-- Header Bootstrap's CSS and Script  -->
+		<div th:fragment="header">
+			<meta charset="UTF-8"/>
+			
+			<!-- Para o icon da chave  -->		
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.0/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+		
+			<!-- Imagem (logo) -->
+        	<link rel="icon" th:href="@{/images/icon.png}"/>
+			
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+			<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+			<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+            <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+            <link rel="stylesheet" type="text/css" th:href="@{/css/sigabem.css}">
+		</div>
+	</head>
+	
+    <body>
+    
+    	<nav th:fragment="header-navbar-sigabem" class="navbar navbar-dark bg-sigabem justify-content-between">
+            <span class="navbar-toggler-icon" id="toggle-icon" onclick="openNav()"></span>
+            <a class="navbar-brand text-light m-auto" th:href="@{/}"> SigaBem</a>
+            <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
+        </nav>
+    
+    	<!-- NavBar -->
+	    <div th:fragment="header-navbar">
+	    	<!-- this is header  -->
+		    <nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+			    	<div class="navbar-header">
+			      		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			        		<span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>                        
+			      		</button>
+			      		<a class="navbar-brand" th:href="@{/}"><span class="glyphicon glyphicon-globe"></span> Sigabem</a>
+			    	</div>
+			    	<div class="collapse navbar-collapse" id="myNavbar">
+			      		<ul class="nav navbar-nav">
+				        	<li class="active"><a th:href="@{/}"><span class="glyphicon glyphicon-map-marker"></span> Mapa</a></li>
+			      		</ul>
+			      
+			      		<ul class="nav navbar-nav navbar-right">
+			      
+				      		<!-- Administrator's menu -->
+	                		<li class="dropdown" sec:authorize="hasAuthority('ADMIN')">
+	                			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	                				<span class="glyphicon glyphicon-cog"></span> Gerenciar <span class="caret"></span>
+	                			</a>
+	                		
+	                			<ul class="dropdown-menu">
+	                				<li><a th:href="@{/denuncias}"><span class="glyphicon glyphicon-exclamation-sign"></span> Denúncias</a></li>
+	                				<li><a th:href="@{/usuarios}"><span class="glyphicon glyphicon-user"></span> Usuários</a></li>
+	                			</ul>
+	                		</li>
+			      
+
+							<!-- Everyones' menu -->
+				            <li class="dropdown">
+				            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opções <span class="caret"></span></a>
+				            	<ul class="dropdown-menu">
+				            	
+				                	<li sec:authorize="!isAuthenticated()"><a th:href="@{/login}" ><span class="glyphicon glyphicon-log-in"></span> Conta</a></li>
+				                	<li sec:authorize="isAuthenticated()"><a th:href="@{/usuario/editar}" ><span class="glyphicon glyphicon-user"></span> Minha Conta</a></li>
+				                	
+					                <li role="separator" class="divider"></li>
+					                <li><a th:href="@{/denuncia/adicionar}" ><span class="glyphicon glyphicon-bullhorn"></span> Denunciar</a></li>
+				              	</ul>
+				            </li>			        
+
+							<form class="navbar-form navbar-right" sec:authorize="isAuthenticated()">
+								  <a class="btn btn-default black-background" th:href="@{/logout}">
+								  	<span class="glyphicon glyphicon-log-out"></span> Sair
+								  </a>
+							</form>
+			      		</ul>
+		    		</div>
+				</div>
+			</nav>
+    	</div>
+    	
+    	<!-- NavBar -->
+	    <div th:fragment="header-navbar-map">
+	    	<!-- this is header  -->
+		    <nav class="navbar navbar-inverse" style=" left: 0px; top: 0px; right: 0px; bottom: auto; width: auto; height: 40px; padding: 0px; z-index: auto; position: absolute;">
+				<div class="container-fluid">
+			    	<div class="navbar-header">
+			      		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			        		<span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>                        
+			      		</button>
+			      		<a class="navbar-brand" th:href="@{/}"><span class="glyphicon glyphicon-globe"></span> Sigabem</a>
+			    	</div>
+			    	<div class="collapse navbar-collapse" id="myNavbar">
+			      		<ul class="nav navbar-nav">
+				        	<li class="active"><a th:href="@{/}"><span class="glyphicon glyphicon-map-marker"></span> Mapa</a></li>
+			      		</ul>
+			      
+			      		<ul class="nav navbar-nav navbar-right">
+			      
+				      		<!-- Administrator's menu -->
+	                		<li class="dropdown" sec:authorize="hasAuthority('ADMIN')">
+	                			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+	                				<span class="glyphicon glyphicon-cog"></span> Gerenciar <span class="caret"></span>
+	                			</a>
+	                		
+	                			<ul class="dropdown-menu">
+	                				<li><a th:href="@{/denuncias}"><span class="glyphicon glyphicon-exclamation-sign"></span> Denúncias</a></li>
+	                				<li><a th:href="@{/usuarios}"><span class="glyphicon glyphicon-user"></span> Usuários</a></li>
+	                			</ul>
+	                		</li>
+			      
+
+							<!-- Everyones' menu -->
+				            <li class="dropdown">
+				            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opções <span class="caret"></span></a>
+				            	<ul class="dropdown-menu">
+				            	
+				                	<li sec:authorize="!isAuthenticated()"><a th:href="@{/usuario/autenticar}" ><span class="glyphicon glyphicon-log-in"></span> Conta</a></li>
+				                	<li sec:authorize="isAuthenticated()"><a th:href="@{/}" ><span class="glyphicon glyphicon-user"></span> Minha Conta</a></li>
+				                	
+					                <li role="separator" class="divider"></li>
+					                <li><a th:href="@{/denuncia/adicionar}" ><span class="glyphicon glyphicon-bullhorn"></span> Denunciar</a></li>
+				              	</ul>
+				            </li>			        
+		
+							<!-- Logout Button -->
+							<form method="post" class="navbar-form navbar-right" th:action="@{/logout}" sec:authorize="isAuthenticated()">
+								  <button type="submit" class="btn btn-default black-background">
+								    <span class="glyphicon glyphicon-log-out"></span> 
+								    Sair
+								  </button>
+							</form>
+			      		</ul>
+		    		</div>
+				</div>
+			</nav>
+    	</div>
+	</body>
+</html>

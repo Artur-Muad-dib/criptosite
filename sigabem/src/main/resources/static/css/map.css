@@ -1,0 +1,149 @@
+#mapid { 
+    height: 80vh; 
+    z-index: 0;
+}
+
+.loading{
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    z-index: 100;
+    height: 50px;
+    width: 50px;
+}
+
+.containerMap{
+    position: relative;
+    transition: all 0.2s;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: all .5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active em versões anteriores a 2.1.8 */ {
+    opacity: 0;
+    right: -500px;
+}
+
+.estimativas{
+    margin-right: 10px;
+    width: 30%;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.container-fluid{
+    width: 90%  !important;
+}
+
+.grade{
+    position: relative;
+}
+
+.linha-item:hover{
+    background-color: #28D8A1 !important;
+    color: #fff;
+    cursor: default;
+}
+
+.linha-item-close:hover{
+    background-color: rgb(163, 34, 34);
+    color: #fff;
+    cursor: pointer;
+}
+
+.marginMap{
+    margin-right: 35%;
+}
+
+.checkBoxes{
+	color: white;
+	padding: 7px;
+	border-radius: 3px;
+	margin-bottom: 6px;
+	min-width: fit-content;
+}
+
+#checkBoxes{
+	display: flex;
+	overflow-x: scroll;
+}
+
+/* The side navigation menu */
+.sidenav {
+	height: 100%; /* 100% Full-height */
+	width: 0; /* 0 width - change this with JavaScript */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Stay on top */
+	top: 0; /* Stay at the top */
+	left: 0;
+	background-color:  rgb(35, 170, 127) !important;
+	overflow-x: hidden; /* Disable horizontal scroll */
+	padding-top: 60px; /* Place content 60px from the top */
+	transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+ 
+ /* The navigation menu links */
+ .sidenav a {
+   padding: 8px 8px 8px 32px;
+   text-decoration: none;
+   font-size: 25px;
+   color: #ffffff;
+   display: block;
+   transition: 0.3s;
+ }
+ 
+ /* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+	color: rgb(146, 255, 221) !important;
+}
+ 
+ /* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+}
+ 
+ /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+	transition: margin-left .5s;
+	padding: 0;
+}
+ 
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+	.sidenav {padding-top: 15px;}
+	.sidenav a {font-size: 18px;}
+}
+
+  /* width */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	margin-bottom: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+	height: 9px;
+	width: 9px;
+}

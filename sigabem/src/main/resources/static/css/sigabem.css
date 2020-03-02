@@ -1,0 +1,32 @@
+@font-face {
+	font-family: fontSigaBem;
+	src: url("../fonts/coolvetica rg.ttf");
+}
+  
+nav{
+	font-family: fontSigaBem;
+	letter-spacing: 1px;
+}
+
+.bg-sigabem{
+	background-color: #28D8A1 !important;
+}
+
+.btn-outline-sigabem{
+	border-color: #28D8A1;
+	color: #28D8A1;
+}
+
+.btn-outline-sigabem:hover{
+	background-color: #28D8A1;
+	border-color: #28D8A1;
+}
+
+.form-control-sigabem{
+	border-color: #28D8A1;
+}
+
+.input-group{
+	margin: 10px;
+	width: auto;
+}

@@ -1,0 +1,32 @@
+.containerForm{
+    margin-top: 3vh;
+}
+
+.formLogin{
+    padding: 25px 30px 30px 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+    width: 40%;
+    margin-bottom: 3vh;
+}
+
+.btn-LogSigabem{
+    width: 100%;
+}
+
+.icon{
+    width: 100px;
+}
+
+
+.LbCpf{
+    margin-left: 10px;
+}
+
+@media (max-width: 725px) 
+{
+  .formLogin{
+    min-width: 70%;  
+    }
+}
+

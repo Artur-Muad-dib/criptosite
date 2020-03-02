@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Sigabem - Acesso negado</title>
+		
+		<!-- Header -->
+		<div th:replace="fragments/header :: header"/>
+	</head>
+    
+    <body>
+    	<!-- NavBar -->
+	    <div class="container-fluid" th:replace="fragments/header :: header-navbar"/>
+	    	
+	    <!-- Content -->
+	    <div class="container-fluid text-center" >	
+	        <img th:src="@{/images/denied.png}" class="img-fluid"/>
+	        
+	        <h3 style="color: #ff0000">Parece que você não possui acesso a esse conteúdo.</h3>
+        </div>
+    </body>
+</html>
