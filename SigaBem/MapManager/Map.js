@@ -20,14 +20,14 @@ var app = new Vue({
         iconUrl: '../assets/userLocal.png',
         iconSize:     [50, 50], // size of the icon
         iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        popupAnchor:  [-3, 0] // point from which the popup should open relative to the iconAnchor
       }),
       LayersIcons: {
         BusStopIcon: L.icon({
           iconUrl: '../assets/bus-stop.png',
           iconSize:     [50, 50], // size of the icon
-          iconAnchor:   [12, 25], // point of the icon which will correspond to marker's location
-          popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+          iconAnchor:   [8, 40], // point of the icon which will correspond to marker's location
+          popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
         }),
         AuditivaIcon: L.icon({
           iconUrl: '../assets/marker-icon-2x-violet.png',
@@ -74,7 +74,8 @@ var app = new Vue({
         valor.map(stop => {
             if(stop){
                 Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon], {icon: this.LayersIcons.BusStopIcon})
-                        .on('click', ev =>{
+                  .bindPopup(`<p>${stop.text}</p>`)
+                  .on('click', ev =>{
                           _self.estimativas=[{nome: "Carregando parada...", chegada: ""}]
                           axios.get(`http://200.238.105.143:85/public/recife/stop/${stop.text}/estimations`)
                           .then(res =>{
@@ -208,6 +209,7 @@ var app = new Vue({
 
       arcLayerMount(camadaNumber, layername, Licon, colorIcon){
         let layer = [];
+
         axios.get(`https://thabit2.recife.ifpe.local/server/rest/services/sigabem/SIGABEM_2/MapServer/${camadaNumber}/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=user_nome_&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson`)
         .then(response =>{
           response.data.features.map(persona =>{
@@ -237,7 +239,58 @@ var app = new Vue({
                             Enable: false
                           })
         })
+      },
+      layerCalcadas(URI, layername, Licon, colorIcon){
+        let layer = [];
+        _self = this;
+        axios.get(URI)
+        .then(response =>{
+            //console.log(response.data.result.records)
+            axios.all(response.data.result.records.map((result) => {
+                let baseURI = `https://nominatim.openstreetmap.org/?addressdetails=1&q=${result.bairro.replace('(', '').replace(')','')} ${result.logradouro.replace('(', '').replace(')','').replace('mutirão','')}&format=json&limit=1`
+                 return axios.get(baseURI)
+                    .then(function (response2) {
+                        
+                        return Object.assign({URI: baseURI}, response2.data[0], result);
+                    }); 
+            })).then(function(lista){
+                console.log(lista)
+                let count = '';
+                lista.map((item)=>{
+                    try{
+                        layer.push(L.marker([item.lat, item.lon],
+                        {icon: Licon}
+                        ).bindPopup(`<h4>${item.bairro},${item.logradouro}</h4>
+                                     <h5>Percentual: ${item.percentual_concluido}</h5>
+                                     <h5>Status: ${item.status}</h5>
+                                     <p>${item.observacao}</p>
+                                     `
+                            ))
+                        
+                    }catch{
+                        count +=`${item._id} ${item.logradouro} ${item.bairro}\n`
+                    }
+                })
+                console.error(count)
+                _self.layers.push({name: ""+layername, 
+                                    geometry: L.layerGroup(layer),
+                                    color: colorIcon,
+                                    checked: false,
+                                    Enable: true
+                                })
+            }); 
+            
+          
+        }).catch(e =>{
+            _self.layers.push({name: "Erro na camada: "+layername, 
+                            geometry: layername+"Undefined",
+                            color: "rgba(170, 0, 0, 0.2)",
+                            checked: false,
+                            Enable: false
+                          })
+        })
       }
+
 
 
     },//end methods
@@ -286,6 +339,12 @@ var app = new Vue({
         "Visual",
         this.LayersIcons.VisualIcon, "#CB2B3E")
 
+        this.layerCalcadas(
+          "http://dados.recife.pe.gov.br/api/3/action/datastore_search?resource_id=272f3273-1443-4243-9964-bf7748646abe",
+          "Calçadas reformada",
+          this.LayersIcons.VisualIcon, "#CB2B3E")
+        
+        
         this.buscarPontos()
         
         
