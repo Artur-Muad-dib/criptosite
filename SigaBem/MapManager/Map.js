@@ -1,83 +1,132 @@
-axios.baseURL = "http://200.238.105.143:85/public/recife/"
-
 var app = new Vue({
     el: '#app',
 
     data: {
-      layers :[],
-      layersExibidas: [],
-      todos: '',
-      map: '',
-      searchRadius: "350",
-      location:{
-        lat: '',
-        lon: ''
-      },  
-      loading: "visible",
-      pesquisa: "",
-      paradas : [],
-      userIcon: L.icon({
+        
+        stops: [],
+        marcarTodos: false,
+
+        //Camadas
+        map: '',
+        markerUser: '',
+        layerOpenStreet: '',
+        layerBairros: '',
+        layerParadas : [],
+        layerPCDs: '',
+        layerCalcadas: '',
+        layerMunicipios: '',
+
+
+        searchRadius: "350",
+
+        //localização
+        location:{
+        lat: -8.063169,
+        lon: -34.871139
+        },  
+
+
+        //configuração
+        loading: false,
+        pesquisa: "",
+
+        //config Age
+        lowerAge: 5,
+        upperAge: 45,
+        maxAge: 100,
+        minAge: 1,
+
+        //sexo
+        sexos: [],
+
+        //deficits
+        deficits: ["AUDITIVA", "INTELECTUAL", "VISUAL", "MULTIPLA", "FISICA"],
+        deficitsSelect: [],
+
+        //bairros
+        bairros: [],
+        bairrosSelect: [],
+
+
+        //control
+        info: '',
+        control: '',
+        
+
+        //icones
+        userIcon: L.icon({
         iconUrl: '../assets/userLocal.png',
         iconSize:     [50, 50], // size of the icon
         iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
         popupAnchor:  [-3, 0] // point from which the popup should open relative to the iconAnchor
-      }),
-      LayersIcons: {
+        }),
         BusStopIcon: L.icon({
-          iconUrl: '../assets/bus-stop.png',
-          iconSize:     [50, 50], // size of the icon
-          iconAnchor:   [8, 40], // point of the icon which will correspond to marker's location
-          popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
+            iconUrl: '../assets/bus-stop.png',
+            iconSize:     [50, 50], // size of the icon
+            iconAnchor:   [8, 40], // point of the icon which will correspond to marker's location
+            popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
         }),
-        AuditivaIcon: L.icon({
-          iconUrl: '../assets/marker-icon-2x-violet.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-        }),
-        IntelectualIcon: L.icon({
-          iconUrl: '../assets/marker-icon-2x-blue.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-        }),
-        VisualIcon: L.icon({
-          iconUrl: '../assets/marker-icon-2x-red.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-        }),
-        FisicaIcon: L.icon({
-          iconUrl: '../assets/marker-icon-2x-green.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-        }),
-        MultiplaIcon: L.icon({
-          iconUrl: '../assets/marker-icon-2x-orange.png',
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
-        })
-      },
 
-      estimativas: [],
+        CavaleteIcon: L.icon({
+            iconUrl: '../assets/cavalete.png',
+            iconSize:     [50, 50], // size of the icon
+            iconAnchor:   [8, 40], // point of the icon which will correspond to marker's location
+            popupAnchor:  [15, -20] // point from which the popup should open relative to the iconAnchor
+        }),
+        deficientsIcons:{
+            AUDITIVA: 'violet',
+            INTELECTUAL: 'blue',
+            VISUAL: 'red',
+            FISICA: 'green',
+            MULTIPLA: 'orange'
+        },
+
+       
+
+        estimativas: [],
     },// end data
 
 
 
     watch:{
-      todos:function(valor){ 
-        this.map.removeLayer(this.paradas)
+
+        marcarTodos(atual){
+            if(atual){
+                let r = confirm("Filtrar com todos os bairros selecionados pode travar o sistema, deseja continuar?");
+                if (r == true) {
+                    this.bairrosSelect = [...this.bairros];
+                }
+            }else{
+                this.bairrosSelect = [];
+            }
+        },
+
+
+        lowerAge(atual){
+            if (this.lowerAge > this.upperAge) {
+                this.lowerAge = this.upperAge;
+            }
+
+        },
+        upperAge(atual){
+            if (this.upperAge < this.lowerAge) {
+                this.upperAge = this.lowerAge;
+            }
+        },
+
+
+
+
+      stops:function(valor){ 
         _self = this;
         let Lparadas = [];
         valor.map(stop => {
             if(stop){
-                Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon], {icon: this.LayersIcons.BusStopIcon})
+                Lparadas.push(L.marker([stop.loc.lat, stop.loc.lon], {icon: this.BusStopIcon})
                   .bindPopup(`<p>${stop.text}</p>`)
                   .on('click', ev =>{
                           _self.estimativas=[{nome: "Carregando parada...", chegada: ""}]
-                          axios.get(`http://200.238.105.143:85/public/recife/stop/${stop.text}/estimations`)
+                          axios.get(`http://200.133.17.12:3001/estimativas?stop=${stop.text}`)
                           .then(res =>{
                             
                             let estimativas = res.data.map(estimativa => {
@@ -87,7 +136,7 @@ var app = new Vue({
                                   }
                                 })
 
-                            axios.get(`http://200.238.105.143:85/public/recife/lines`)
+                            axios.get(`http://200.133.17.12:3001/linhas`)
                                  .then(linhas =>{
                                   estimativas = estimativas.map(estimativa=>{
                                                 let linha = linhas.data.find(cadaLinha =>{
@@ -127,14 +176,14 @@ var app = new Vue({
         })
 
         Lparadas.push(circle)
-        this.paradas = L.layerGroup(Lparadas)
-        this.paradas.addTo(this.map)
-        this.loading = "hidden"
+        this.layerParadas.clearLayers();
+        this.layerParadas.addLayer(L.layerGroup(Lparadas))
+        
+        this.loading = false
 
       },
       location:function(atual){
           this.map.setView([this.location.lat, this.location.lon], 17);
-          this.buscarPontos();
       },
       layersExibidas:function(layersAtuais, layersAntigas){
         layersAntigas.map(layer => this.map.removeLayer(layer))
@@ -148,150 +197,291 @@ var app = new Vue({
 
 
     methods:{
-      buscarPontos(){
-        this.loading = "visible"
-        document.getElementById('mapid').scrollIntoView();
-        axios.get(`http://200.238.105.143:85/public/recife/stops?lat=${this.location.lat}&lon=${this.location.lon}&meters=${this.searchRadius}`)
-          .then(response => {
-              this.getLinhas(response); 
 
-            })
-      },
+        async buscarPontos(){
+            this.loading = true
+            document.getElementById('mapid').scrollIntoView();
+            let pontos
+            try{
+                pontos = await axios.get(`http://200.133.17.12:3001/stops?lat=${this.location.lat}&lon=${this.location.lon}&meters=${this.searchRadius}`);
+            }catch{
+                alert("Ocorreu um erro no serviço de paradas");
+                this.loading = false
+                return
+            }
+            this.stops = pontos.data
+            this.loading = false
+        },
+        
+        async getBairros(){
+            _self = this;
+            const style = {
+                    fillColor: 'white',
+                    weight: 2,
+                    opacity: 1,
+                    color: '#800026',
+                    dashArray: '3',
+                    fillOpacity: 0.3
+                };
 
 
-      getLinhas(resStop){
-        let _self = this;
-        axios.all(resStop.data.map(function(result) {
-          return axios.get(`http://200.238.105.143:85/public/recife/stop/${result}/lines`)
-              .then(function (response) {
-                  return {text: result, line: response.data[0]};
-              }); 
-        })).then(function(lista){
-          _self.getStopCords(lista, _self)
-         }); 
-      },
 
-      getStopCords(resStopLine, self){
-        let _self = self;
-        axios.all(resStopLine.map(function(result) {
-          return axios.get(`http://200.238.105.143:85/public/recife/line/${result.line}`)
-              .then(function (response) {
-                //console.log(response)
-                if(response.data.stops){
-                  dataStop = response.data.stops.find(el => el.label == result.text)
-                  return {text: result.text, loc: dataStop.location};
+            function highlightFeature(e) {
+                var layer = e.target;
+            
+                layer.setStyle({
+                    weight: 5,
+                    color: '#666',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                });
+            
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
                 }
-              }); 
-        })).then(function(lista){
-          //console.log(lista)
-          _self.todos = lista
-         }); 
-      },
 
-      
+                _self.info.update(layer.feature.properties);
+            }
 
-      redirecionar(){
-          console.log(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
-          axios.get(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
-          .then(res =>{
+            function resetHighlight(e) {
+                var layer = e.target;
+
+                layer.setStyle(style);
+                _self.info.update();
+            }
+
+            function zoomToFeature(e) {
+                _self.map.fitBounds(e.target.getBounds());
+            }
+
+            function onEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
+
+                
+            }
+            
+            
+            
+            let bairros = await axios.get('http://200.133.17.12:3001/bairros')
+
+            this.bairros = bairros.data.map(bairro => bairro.bairro).sort();
+
+            bairros = bairros.data.map((bairro, index)=>{ 
+                return {
+                    type: "Feature",
+                    id:index,
+                    properties:{
+                            type: 'bairro',
+                            name: bairro.bairro,    
+                        },
+                    geometry: JSON.parse(bairro.geometry)   
+                }  
+            })
+            this.layerBairros.clearLayers();
+            this.layerBairros.addLayer(L.geoJson({type:"FeatureCollection", features: bairros}, 
+            {style: style, onEachFeature: onEachFeature}))
+
+        },
+
+        redirecionar(){
+            console.log(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
+            axios.get(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
+            .then(res =>{
                 let locali = {
                     lat: res.data[0].lat,
                     lon: res.data[0].lon
                 }
 
                 this.location = locali;
-                console.log(locali);
-                console.log(res)
 
-          })
+            })
         
-      },
+        },
 
-      arcLayerMount(camadaNumber, layername, Licon, colorIcon){
-        let layer = [];
-
-        axios.get(`https://thabit2.recife.ifpe.local/server/rest/services/sigabem/SIGABEM_2/MapServer/${camadaNumber}/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=user_nome_&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson`)
-        .then(response =>{
-          response.data.features.map(persona =>{
-            if(persona.geometry.y && persona.geometry.x){
-              try{
-                layer.push(L.marker([persona.geometry.y, persona.geometry.x],
-                {icon: Licon}
-                ).bindPopup(persona.attributes.user_nome_))
-              }catch{
-                console.warn(persona.attributes.user_nome_)
-              }
+        async getCalcadas(){
+            let layer = [];
+            _self = this;
+            let response;
+            try{
+                response = await axios.get("http://200.133.17.12:3001/calcadas")
+     
+            }catch{
+                alert("Ocorreu um erro no serviço de Calçadas reformadas");
+                this.loading = false
+                return
             }
-          })
-          
-          this.layers.push({name: ""+layername, 
-                            geometry: L.layerGroup(layer),
-                            color: colorIcon,
-                            checked: false,
-                            Enable: true
-                          })
-          
-        }).catch(e =>{
-          this.layers.push({name: "Erro na camada: "+layername, 
-                            geometry: layername+"Undefined",
-                            color: "rgba(170, 0, 0, 0.2)",
-                            checked: false,
-                            Enable: false
-                          })
-        })
-      },
-      layerCalcadas(URI, layername, Licon, colorIcon){
-        let layer = [];
-        _self = this;
-        axios.get(URI)
-        .then(response =>{
-            //console.log(response.data.result.records)
-            axios.all(response.data.result.records.map((result) => {
+            
+            const lista = await Promise.all(response.data.result.records.map((result) => {
                 let baseURI = `https://nominatim.openstreetmap.org/?addressdetails=1&q=${result.bairro.replace('(', '').replace(')','')} ${result.logradouro.replace('(', '').replace(')','').replace('mutirão','')}&format=json&limit=1`
-                 return axios.get(baseURI)
+                return axios.get(baseURI)
                     .then(function (response2) {
-                        
                         return Object.assign({URI: baseURI}, response2.data[0], result);
                     }); 
-            })).then(function(lista){
-                console.log(lista)
-                let count = '';
-                lista.map((item)=>{
-                    try{
-                        layer.push(L.marker([item.lat, item.lon],
-                        {icon: Licon}
-                        ).bindPopup(`<h4>${item.bairro},${item.logradouro}</h4>
-                                     <h5>Percentual: ${item.percentual_concluido}</h5>
-                                     <h5>Status: ${item.status}</h5>
-                                     <p>${item.observacao}</p>
-                                     `
-                            ))
-                        
-                    }catch{
-                        count +=`${item._id} ${item.logradouro} ${item.bairro}\n`
-                    }
-                })
-                console.error(count)
-                _self.layers.push({name: ""+layername, 
-                                    geometry: L.layerGroup(layer),
-                                    color: colorIcon,
-                                    checked: false,
-                                    Enable: true
-                                })
-            }); 
+            }))
+            let count = '';
+            lista.map((item)=>{
+                try{
+                    layer.push(L.marker([item.lat, item.lon],{icon: this.CavaleteIcon}
+                    ).bindPopup(`<h4>${item.bairro},${item.logradouro}</h4>
+                                    <h5>Percentual: ${item.percentual_concluido}</h5>
+                                    <h5>Status: ${item.status}</h5>
+                                    <p>${item.observacao}</p>
+                                    `
+                        ))
+                    
+                }catch{
+                    count +=`${item._id} ${item.logradouro} ${item.bairro}\n`
+                }
+            })
+            console.error(count)
+            this.layerCalcadas.clearLayers();
+            this.layerCalcadas.addLayer(L.layerGroup(layer))
+
+                
+        },
+
+        getLocation(){
+            navigator.geolocation.getCurrentPosition((position) =>{
+                let locali = {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                }
+                
+                this.markerUser.setLatLng(locali)
+                this.location = locali;
+            })
+        },
+
+        async getMunicipios(){
+            _self = this;
+            const style = {
+                    fillColor: 'white',
+                    weight: 2,
+                    opacity: 1,
+                    color: '#408026',
+                    dashArray: '3',
+                    fillOpacity: 0.3
+                };
+
+
+
+            function highlightFeature(e) {
+                var layer = e.target;
             
-          
-        }).catch(e =>{
-            _self.layers.push({name: "Erro na camada: "+layername, 
-                            geometry: layername+"Undefined",
-                            color: "rgba(170, 0, 0, 0.2)",
-                            checked: false,
-                            Enable: false
-                          })
-        })
-      }
+                layer.setStyle({
+                    weight: 5,
+                    color: '#666',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                });
+            
+                if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                    layer.bringToFront();
+                }
+
+                _self.info.update(layer.feature.properties);
+            }
+
+            function resetHighlight(e) {
+                var layer = e.target;
+
+                layer.setStyle(style);
+                _self.info.update();
+            }
+
+            function zoomToFeature(e) {
+                _self.map.fitBounds(e.target.getBounds());
+            }
+
+            function onEachFeature(feature, layer) {
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                    click: zoomToFeature
+                });
+
+                
+            }
+            
+            
+            
+            let municipios = await axios.get('http://200.133.17.12:3001/municipios')
 
 
+            municipios = municipios.data.map((municipio, index)=>{ 
+                return {
+                    type: "Feature",
+                    id:index,
+                    properties:{
+                            type: "municipio",
+                            name: municipio.nome,
+                            pop: municipio["população"],
+                            dens: municipio.dens_demo
+
+                        },
+                    geometry: JSON.parse(municipio.geometry)   
+                }  
+            })
+            this.layerMunicipios.clearLayers();
+            this.layerMunicipios.addLayer(L.geoJson({type:"FeatureCollection", features: municipios}, 
+            {style: style, onEachFeature: onEachFeature}))
+
+        },        
+
+        async filtrarPCDs(){
+
+            if(!(this.bairrosSelect.length && this.sexos.length && this.deficitsSelect.length)){
+                alert("Preencha todos os campos");
+                return
+            }
+            
+            this.loading = true
+            const filter = {
+                "minAge": this.lowerAge,
+                "maxAge": this.upperAge,
+                "district": this.bairrosSelect,
+                "gender": this.sexos,
+                "deficit": this.deficitsSelect 
+            }
+
+            console.log(filter);
+
+            let pcds = await axios.post('http://200.133.17.12:3001/pcd', filter)
+            pcds = pcds.data.map(pcd =>  {
+                let modify_pcd = {...pcd};
+                modify_pcd.lat = JSON.parse(modify_pcd.geometry).coordinates[0];
+                modify_pcd.lon = JSON.parse(modify_pcd.geometry).coordinates[1];
+                
+                return L.marker([modify_pcd.lon, modify_pcd.lat], {icon: this.pcdsIcons(modify_pcd.deficiencia)} )
+                        .bindPopup(`<h5>${modify_pcd.nome}</h5>
+                                    <strong>CPF:</strong> ${modify_pcd.cpf}</br>
+                                    <strong>Deficiencia:</strong> ${modify_pcd.deficiencia} </br> 
+                                    <strong>Local:</strong> ${modify_pcd.place}</br>
+                                    <strong>Sexo:</strong> ${modify_pcd.sexo == 'M' ? "Masculino": "Feminino"} </br>
+                                    <strong>Idade:</strong> ${modify_pcd.idade}</br>
+                                    `);
+
+            })
+
+            this.layerPCDs.clearLayers();
+            this.layerPCDs.addLayer(L.featureGroup(pcds))
+            _self.map.fitBounds(this.layerPCDs.getBounds())
+
+            this.loading = false
+        },
+
+        pcdsIcons(deficiencia){
+            return L.icon({
+                iconUrl: `../assets/marker-icon-2x-${this.deficientsIcons[deficiencia]}.png`,
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+            })
+        }
 
     },//end methods
 
@@ -299,60 +489,82 @@ var app = new Vue({
 
 
     mounted(){
-      _self = this;
-      navigator.geolocation.getCurrentPosition(position =>{
-        this.location.lat = position.coords.latitude
-        this.location.lon = position.coords.longitude
+
 
         this.map = L.map('mapid').setView([this.location.lat, this.location.lon], 17);
-        L.tileLayer('http://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        ).addTo(this.map);
-        L.marker([this.location.lat, this.location.lon], {icon: this.userIcon}).addTo(this.map); 
 
-        this.map.on('click', function(ev) {
-          let loc={
-              lat: ev.latlng.lat,
-              lon: ev.latlng.lng
-           }
-          
-        _self.location = loc
-        });
-
-        this.arcLayerMount(12,
-        "Auditiva",
-        this.LayersIcons.AuditivaIcon, "#9C2BCB"
-        )
-
-        this.arcLayerMount(13,
-        "Fisica",
-        this.LayersIcons.FisicaIcon, "#2AAD27")
-
-        this.arcLayerMount(14,
-        "Intelectual",
-        this.LayersIcons.IntelectualIcon, "#2A81CB")
-
-        this.arcLayerMount(15,
-        "Multipla",
-        this.LayersIcons.MultiplaIcon, "#CB8427")
-
-        this.arcLayerMount(16,
-        "Visual",
-        this.LayersIcons.VisualIcon, "#CB2B3E")
-
-        this.layerCalcadas(
-          "http://dados.recife.pe.gov.br/api/3/action/datastore_search?resource_id=272f3273-1443-4243-9964-bf7748646abe",
-          "Calçadas reformada",
-          this.LayersIcons.VisualIcon, "#CB2B3E")
+        let token = "pk.eyJ1IjoiYXJ0aHVydHJpaXMxIiwiYSI6ImNrNmduZHJ4NzB5ejgza3A2czBmbWttYmIifQ.vStvcH5ZvTN04wfLjuKtNA"
+        this.layerGray = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + token, {
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                        }).addTo(this.map);
         
-        
-        this.buscarPontos()
-        
-        
+        this.layerOpenStreet = L.tileLayer('http://c.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+        this.markerUser = L.marker([this.location.lat, this.location.lon], {icon: this.userIcon}).addTo(this.map); 
+        this.layerParadas = L.featureGroup([]).addTo(this.map);
+        this.layerPCDs = L.featureGroup([]).addTo(this.map);
+        this.layerCalcadas = L.featureGroup([]).addTo(this.map);
+        this.layerBairros = L.featureGroup([]).addTo(this.map)
+        this.layerMunicipios = L.featureGroup([]).addTo(this.map)
+        this.info = L.control();
+
+        this.info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+
+        this.info.update = function (props) {
+            this._div.innerHTML;  
+            if(props){
+                if(props.type == "bairro"){
+                    this._div.innerHTML = '<b>' + props.name + '</b>';
+                }else if(props.type == "municipio"){
+                    this._div.innerHTML = '<b>' + props.name + '</b> </br> <b>População:' + props.pop + '</b> </br> <b>Densidade demografica:' + props.dens + '</b>';
+                }
+            }else{
+                this._div.innerHTML = 'Região Metropolitana do Recife';
+            }
+        };
+
+        this.info.addTo(this.map)
 
 
-      })
+
+
+        this.map.on('dblclick', ev =>{ 
+            this.location = {lat: ev.latlng.lat, lon: ev.latlng.lng}; 
+            this.buscarPontos();
+        })
+
+
+
+        this.getLocation();    
+        this.getBairros();
+        this.getCalcadas();
+        this.getMunicipios();
+
+
+        let baseMaps = {
+            "Cinza": this.layerGray,
+            "OpenStreetMap": this.layerOpenStreet
+        };
+        
+        let overlayMaps = {
+            "Calçadas": this.layerCalcadas,
+            "Municipios": this.layerMunicipios,
+            "Bairros" : this.layerBairros,
+            "Paradas": this.layerParadas,
+            "PCDs": this.layerPCDs,
+        };
+
+        this.control = L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+
+
+    }//End mounted()
       
-    }//end mounted
+    
 
   })
 

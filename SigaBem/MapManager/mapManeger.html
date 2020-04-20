@@ -33,31 +33,91 @@
                     <button class="btn btn-outline-secondary btn-outline-sigabem" v-on:click="redirecionar()" type="button">Buscar</button>
                 </div>
             </div>
+
+            <div class='filterOptions'>
+                <div class="filterOption">
+                    <h5>Faixa étaria</h5>
+                    <div class="optionAge option">
+                        <input type="number"  name="min" v-bind:min="minAge" v-bind:max="upperAge" v-model="lowerAge">
+                        <p>até</p>
+                        <input type="number" name="quantity" V-bind:min="lowerAge" v-bind:max="maxAge" v-model="upperAge">
+                    </div>
+                </div>
+                <div class="filterOption">
+                    <h5>Sexo</h5>
+                    <div class="optionSex option">
+                        <input type="checkbox" id="checkM" value="M" v-model="sexos">
+                        <label for="checkM">Masculino</label>
+                        <input type="checkbox" id="checkF" value="F" v-model="sexos">
+                        <label for="checkF">Feminino</label>
+                    </div>
+                </div>
+                <div class="filterOption">
+                    <div class="dropdown show">
+                        <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownBairros" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                          <h5 class="textDrop">Bairros</h5>
+                        </a>
+                      
+                        <div class="dropdown-menu" aria-labelledby="dropdownBairros">
+                            <div class="optionBairro">
+                                <div class="bairros">
+                                    <input type="checkbox" id="todosSelect" v-model="marcarTodos">
+                                    <label for="todosSelect" style="color: brown;">SELECIONAR TODOS</label>
+                                </div>
+                            </div>
+                            <div class="optionBairro" v-for="bairro in bairros" v-bind:key="bairro">
+                                <div class="bairros">
+                                    <input type="checkbox" v-bind:id="bairro + 'select'" v-bind:value="bairro" v-model="bairrosSelect">
+                                    <label v-bind:for="bairro + 'select'">{{bairro}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filterOption">
+                    <div class="dropdown show">
+                        <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownDeficits" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <h5 class="textDrop">Deficiencia</h5>
+                        </a>
+                      
+                        <div class="dropdown-menu" aria-labelledby="dropdownDeficits">
+                            
+                            <div class="optionDefict" v-for="deficit in deficits" v-bind:key="deficit">
+                                <div class="deficits" v-bind:class="deficientsIcons[deficit]">
+                                    <input type="checkbox" v-bind:id="deficit + 'select'" v-bind:value="deficit" v-model="deficitsSelect">
+                                    <label v-bind:for="deficit + 'select'">{{deficit}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filterOption">
+                    <button type="button" v-bind:disabled="loading" v-on:click="filtrarPCDs()" class="btn btn-success" >Filtrar</button>
+                </div>
+                
+            </div>
+
+
             <div  class="grade">
                 <div class="containerMap" :class='{marginMap: estimativas.length}'>
-                    <div id="checkBoxes">
-                        <div class="form-check form-check-inline checkBoxes" v-for="layer in layers" v-bind:style="{'background-color': layer.color}"  >
-                            <input class="form-check-input" type="checkbox" v-model="layersExibidas":id="'id' + layer.name":key="layer.name" :value="layer.geometry" :disabled="!layer.Enable">
-                            <label class="form-check-label" >{{layer.name}}</label>
-                        </div>
-    
-                    </div>
+
                     
                     <div>
-                        <div class="spinner-border text-success loading" :style="{ visibility : loading}" role="status">
+                        <div class="spinner-border text-success loading" :style="{ visibility : (loading ? 'visible' : 'hidden')}" role="status">
                         </div>
                         <div id="mapid"> </div>
                     </div>
                 </div>
                 <transition name="fade">
                     <div v-if="estimativas.length" class="list-group estimativas">
+                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start linha-item-close" v-on:click="estimativas = []" >
+                            <h5 class="mb-1">Fechar</h5>
+                        </a>
                         <a v-for="estimativa in estimativas" href="#" class="list-group-item list-group-item-action flex-column align-items-start linha-item">
                             <h5 class="mb-1">{{estimativa.nome}}</h5>
                             <small>{{estimativa.chegada}}</small>
                             
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start linha-item-close" v-on:click="estimativas = []" >
-                            <h5 class="mb-1">Fechar</h5>
                         </a>
                     </div>
                 </transition>
@@ -68,7 +128,7 @@
 
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS, then axios, then vue -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
