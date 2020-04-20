@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" th:href="@{/css/sigabem.css}">
+		<link rel="stylesheet" th:href="@{/css/sigabemLogin.css}">
+		
+		<title>SigaBem</title>
+	</head>
+	<body>
+
+		<nav class="navbar navbar-dark bg-sigabem justify-content-between">
+			<a class="navbar-brand text-light" th:href="@{/}">SigaBem</a>
+			<form class="form-inline">
+				<a th:href="@{/usuario/cadastro}" class="text-light">Cadastrar-se</a>
+			</form>
+		</nav>
+	
+		<div class="container-fluid containerForm">
+			<div class="row justify-content-center">
+				<form class="formLogin" method="post" th:object="${user}" th:action="@{/usuario/login}">
+					<img th:src="@{/images/icon.png}" class="rounded mx-auto d-block icon" alt="Sigabem logo">
+					
+					<div th:if="${not_logged}" class="alert alert-warning alert-dismissible fade show" id="errorResponse" role="alert">
+						É preciso estar logado no site para poder acessar os recursos disponíveis.
+						<button type="button" class="close" id="errorResponseClose" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					
+					<div th:if="${response != null}" class="alert alert-danger alert-dismissible fade" id="errorResponse" role="alert">
+						Login e/ou senha não conferem
+						<button type="button" class="close" id="errorResponseClose" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					
+					<div class="form-group">
+						<label for="impCpf">CPF</label>
+						<input type="text" class="form-control" id="impCpf" aria-describedby="cpfHelp" placeholder="CPF">
+						<small id="cpflHelp" class="form-text text-muted">Digite o CPF para login.</small>
+					</div>
+					
+					<div class="form-group">
+						<label for="impDate">Data de nascimento</label>
+						<input type="password" class="form-control" id="impPassword" placeholder="Digite a Senha">
+						<small id="cpflHelp" class="form-text text-muted">Digite a senha para login.</small>                
+					</div>
+					  
+					<div class="form-group">
+						<button type="submit" class="btn bg-sigabem text-light btn-LogSigabem" id="btnLogin">Fazer login</button>
+					</div>
+					
+					<hr>
+					
+					<a th:href="@{/usuario/cadastro}"><small>Não tem login? Cadastre-se</small></a>
+				</form>
+			</div>
+		</div>
+	      
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js}" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js}" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<script th:src="@{/js/jquery.maskedinput-1.1.4.pack.js}"></script>
+		<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js}"></script>
+		
+		<!-- Optional JavaScript -->
+		<script th:src="@{/js/sigabemLogin.js}"></script>
+	</body>
+</html>

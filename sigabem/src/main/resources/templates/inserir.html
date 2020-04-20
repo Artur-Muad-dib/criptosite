@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="">
+	<head>
+		<title>Sigabem - Formulário de cadastro de usuário</title>
+		
+		<!-- Header -->
+		<div th:replace="fragments/header :: header"></div>
+	</head>
+    
+    <body>
+	    	
+    	<!-- NavBar -->
+	    <div th:replace="fragments/header :: header-navbar"></div>
+	    	
+	    <!-- Content -->
+	    <div class="container-fluid">	
+		    <div class="container">
+		        <h3 class="text-center">Cadastro de usuário</h3>
+
+	            <form method="post" th:object="${user}" th:action="@{/usuario/inserir}">
+					    	
+		    		<!-- Erros -->
+		    		<div class="form-group row">
+			             <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+			                 <div th:each="detailedError : ${#fields.detailedErrors()}">
+			                     <span th:text="${detailedError.message}"></span>
+			                 </div>
+			             </div>
+			             
+			             <div align="center" th:if="${message}">
+				        	<div class="alert alert-success">
+				           		<p th:utext=${message}></p>
+				        	</div>
+				        </div>
+			   			<div align="center" th:if="${error}">
+				        	<div class="alert alert-danger">
+				           		<p th:utext=${error}></p>
+				        	</div>
+				        </div>
+			         </div>
+		
+		            <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+		                <label class="control-label" for="cpf"> CPF</label>
+		                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" th:field="*{cpf}" required="required"/>
+		            </div>
+		            <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+		                <label class="control-label" for="dt">Data de nascimento</label>
+		                <input type="text" class="form-control" id="dt" name="dt" placeholder="Digite sua data de nascimento" th:field="*{dt}" required="required"/>
+		            </div>
+					
+					<div class="form-group col-lg-12">
+			            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Salvar</button>
+			        </div>
+		        </form>
+	        </div>
+        </div>
+    </body>
+</html>
