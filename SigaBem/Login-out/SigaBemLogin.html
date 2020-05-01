@@ -6,20 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/SigaBem.css">
-
     <link rel="stylesheet" href="SigaBemLogin.css">
  
     <title>SigaBem</title>
   </head>
   <body>
 
-      <nav class="navbar navbar-dark bg-sigabem justify-content-between">
+      <nav class="navbar navbar-dark bg-sigabem justify-content-start">
         <a class="navbar-brand text-light" href="#">SigaBem</a>
-        <form class="form-inline">
-          <a href="SigaBemCadastro.html" class="text-light">Cadastrar-se</a>
-        </form>
       </nav>
 
       <div class="container-fluid containerForm">
@@ -32,21 +29,20 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-
-                <div class="form-group">
-                    <label for="impCpf" class="LbCpf">CPF</label>
-                    <input type="text" class="form-control" id="impCpf" aria-describedby="cpfHelp" placeholder="CPF">
-                    <small id="cpflHelp" class="form-text text-muted">Digite o CPF para login.</small>
-                </div>
-                <div class="form-group">
-                    <label for="impDate">Data de nascimento</label>
-                    <input type="password" class="form-control" id="impPassword" placeholder="Digite a Senha">
-                    <small id="cpflHelp" class="form-text text-muted">Digite a senha para login.</small>                
+                <form action="">
+                  <div class="form-group">
+                      <label for="impCpf" class="LbCpf">CPF</label>
+                      <input type="text" class="form-control" id="impCpf" placeholder="CPF">
+                      <small class="form-text text-muted">Digite o CPF para login.</small>
                   </div>
+                  <div class="form-group">
+                      <label for="impPassword">Senha</label>
+                      <input type="password" class="form-control" id="impPassword" placeholder="Digite a Senha">
+                      <small class="form-text text-muted">Digite a senha para login.</small>                
+                  </div>
+                    <button type="button" class="btn bg-sigabem text-light btn-LogSigabem" id="btnLogin">Fazer login</button>
+                </form>
                 
-                <button type="button" class="btn bg-sigabem text-light btn-LogSigabem" id="btnLogin">Fazer login</button>
-                <hr>
-                  <a href=""><small>Não tem login? Cadastre-se</small></a>
             </form>
         </div>
       </div>
@@ -58,7 +54,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="jquery.maskedinput-1.1.4.pack.js"></script>
+    <script src="../utils/jquery.maskedinput-1.1.4.pack.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
     <!-- Optional JavaScript -->
     <script src="SigaBemLogin.js"></script>

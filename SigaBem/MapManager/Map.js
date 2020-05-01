@@ -216,12 +216,12 @@ var app = new Vue({
         async getBairros(){
             _self = this;
             const style = {
-                    fillColor: 'white',
+                    fillColor: '#810127',
                     weight: 2,
                     opacity: 1,
                     color: '#800026',
                     dashArray: '3',
-                    fillOpacity: 0.3
+                    fillOpacity: 0.2
                 };
 
 
@@ -231,7 +231,7 @@ var app = new Vue({
             
                 layer.setStyle({
                     weight: 5,
-                    color: '#666',
+                    color: '#810127',
                     dashArray: '',
                     fillOpacity: 0.7
                 });
@@ -359,12 +359,12 @@ var app = new Vue({
         async getMunicipios(){
             _self = this;
             const style = {
-                    fillColor: 'white',
+                    fillColor: '#67fe90',
                     weight: 2,
                     opacity: 1,
                     color: '#408026',
                     dashArray: '3',
-                    fillOpacity: 0.3
+                    fillOpacity: 0.2
                 };
 
 
@@ -373,6 +373,7 @@ var app = new Vue({
                 var layer = e.target;
             
                 layer.setStyle({
+                    fillColor: '#67fe90',
                     weight: 5,
                     color: '#666',
                     dashArray: '',

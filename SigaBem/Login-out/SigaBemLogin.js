@@ -1,31 +1,33 @@
+
+const api = axios.create({
+  baseURL: 'http://200.133.17.12:3000',
+});
+
+
 $( "#btnLogin" ).click(function() {
 
 
-    // let cpf = document.getElementById("impCpf").value;
-    // let date = document.getElementById("impDate").value;
+    let cpf = document.getElementById("impCpf").value;
+    let password = document.getElementById("impPassword").value;
     
-    // date = date.split("-");
-    // date = date[2] + "/" +date[1]+"/"+date[0];
-    // cpf = cpf.split(".");
-    // cpf = cpf[0]+cpf[1]+cpf[2]+"";
-    // cpf = cpf.split("-");
-    // cpf = cpf[0] + cpf[1] + "";
+    cpf = cpf.replace(".","").replace("-","").replace(".","");
     
-    // let req = {
-    //   cpf: cpf, 
-    //   dt: date
-    // }
+    let req = {
+      cpf: cpf, 
+      password: password
+    }
  
-    // axios.post("http://Sigabem-env-1.f2p2pcstzh.us-east-2.elasticbeanstalk.com/users/login", req)
-    // .then(response=>{
-    //   alert("Login realizado, token: " + response.data.token);
-    // })
-    // .catch(()=>{
-    //   // Show the alert
-    //   $('#errorResponse').removeClass('d-none').addClass('show');
-    // })
+    console.log(req)
+    api.post("/auth/singin", req)
+    .then(response=>{
+      localStorage.setItem('SBTK', response.data.token);
+      window.location.href = "../MapManager/mapManeger.html"
+    })
+    .catch(()=>{
+      // Show the alert
+      $('#errorResponse').removeClass('d-none').addClass('show');
+    })
 
-    window.location.href = "../MapManager/mapManeger.html"
 
 });
 

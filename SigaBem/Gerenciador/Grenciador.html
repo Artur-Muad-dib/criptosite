@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src="../utils/checkToken.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+        <link rel="stylesheet" href="../assets/SigaBem.css">
+        <link rel="stylesheet" href="../utils/sidenav.css">        
+
+
+        <title>SigaBem Map</title>
+    </head>
+    <body>
+        <div id="Sidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="../MapManager/mapManeger.html">Mapa</a>
+            <a href="../Reclamacoes/Reclamacoes.html">Reclamações</a>
+            <a href="../Notificacoes/Notificacoes.html">Notificações</a>
+            <a href="../Gerenciador/Grenciador.html">Gerenciar administradores</a>
+        </div>
+
+        <div id="main">
+            <nav class="navbar navbar-dark bg-sigabem justify-content-between">
+                <span class="navbar-toggler-icon" id="toggle-icon" onclick="openNav()"></span>
+                <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
+                <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
+            </nav>
+
+            <div class="container" id="app">
+                <div style="display: flex ; justify-content: space-between; padding: 20px 0;">
+                    <h3 >Gerenciador de administradores</h3>
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModal" >Adicionar adminstrador</button>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Adicionar adminstrador</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body" style="height: 80vh; overflow-y: scroll;">
+                            <div v-for="error in errors" class="alert alert-danger" role="alert">
+                                {{error}}
+                            </div>
+                            <form action="">
+                                <div class="form-group">
+                                    <label for="impCpf" class="LbCpf">CPF</label>
+                                    <input type="number" class="form-control" id="impCpf" v-model="dataNewUser.cpf" placeholder="CPF">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="impName">Nome</label>
+                                    <input type="text" class="form-control" id="impName" v-model="dataNewUser.nome" placeholder="Digite a Nome">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impEmail">E-mail</label>
+                                    <input type="text" class="form-control" id="impEmail" v-model="dataNewUser.email" placeholder="Digite a E-mail">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impDate">Data de nascimento</label>
+                                    <input type="date" class="form-control" id="impDate" v-model="dataNewUser.data_nascimento" placeholder="Digite a data de nascimento">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impVem">Número do VEM</label>
+                                    <input type="number" class="form-control" id="impVem" v-model="dataNewUser.vem" placeholder="Digite o número do VEM">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impVem">Deficiencia</label>
+                                    <select class="custom-select" id="inputGroupSelect01" v-model="dataNewUser.tipo_deficiencia" >
+                                        <option value="VISUAL">VISUAL</option>
+                                        <option value="INTELECTUAL">INTELECTUAL</option>
+                                        <option value="MULTIPLA">MULTIPLA</option>
+                                        <option value="FISICA">FISICA</option>
+                                        <option value="AUDITIVA">AUDITIVA</option>
+                                    </select>    
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="impPassword">Senha</label>
+                                    <input type="password" class="form-control" id="impPassword" require v-model="dataNewUser.password" placeholder="Digite a Senha">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impConfirmPassword">Confirmar senha</label>
+                                    <input type="password" class="form-control" id="impConfirmPassword" v-model="dataNewUser.passwordConfirmation" placeholder="Confirme a Senha">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impTelefone">Telefone</label>
+                                    <input type="number" class="form-control" id="impTelefone" v-model="dataNewUser.telefone" placeholder="Telefone">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impGenero">Gênero</label>
+                                    <input type="text" class="form-control" id="impGenero" v-model="dataNewUser.genero" placeholder="Gênero">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impCEP">CEP</label>
+                                    <input type="number" class="form-control" id="impCEP" v-on:blur="getEndereco" v-model="dataNewUser.endereco.cep" placeholder="CEP">       
+                                </div>
+
+                               <div class="form-group">
+                                    <label for="impLogradouro">Logradouro</label>
+                                    <input type="text" class="form-control" id="impLogradouro" v-model="dataNewUser.endereco.logradouro" placeholder="Logradouro">       
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="impNumero">Número</label>
+                                    <input type="number" class="form-control" id="impNumero" v-model="dataNewUser.endereco.numero" placeholder="Número">       
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="impCidade">Cidade</label>
+                                    <input type="text" class="form-control" id="impCidade" v-model="dataNewUser.endereco.cidade" placeholder="Cidade">       
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="impComplemento">Complemento</label>
+                                    <input type="text" class="form-control" id="impComplemento" v-model="dataNewUser.endereco.complemento" placeholder="Complemento">       
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="impBairro">Bairro</label>
+                                    <input type="text" class="form-control" id="impBairro" v-model="dataNewUser.endereco.bairro" placeholder="Bairro">       
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="impEstado">Estado</label>
+                                    <input type="text" class="form-control" id="impEstado" v-model="dataNewUser.endereco.estado" placeholder="Estado">       
+                                </div>
+                                
+                                
+                                <div class="form-group">
+                                    <label for="impPais">País</label>
+                                    <input type="text" class="form-control" id="impPais" v-model="dataNewUser.endereco.pais" placeholder="País">       
+                                </div> 
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" v-on:click="addUser()">Adicionar adminstrador</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">Data de nascimento</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="user in users" v-bind:key="user.cpf">
+                        <td>{{user.email}}</td>
+                        <td>{{user.cpf}}</td>
+                        <td>{{user.data_nascimento}}</td>
+                        <td><button type="button" class="btn btn-danger">Deletar</button></td>
+                      </tr> 
+                    </tbody>
+                  </table>
+                
+               
+            </div>
+        </div>
+
+
+
+
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS, then axios, then vue -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="../utils/jquery.maskedinput-1.1.4.pack.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <!-- Optional JavaScript -->
+        <script src="../utils/Navside.js"></script>
+        <script src="Gerenciador.js"></script>
+    </body>
+</html>    
