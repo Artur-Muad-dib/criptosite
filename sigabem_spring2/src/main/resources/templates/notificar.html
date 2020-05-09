@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Sigabem - Formulário de envio de notificações</title>
+		
+		<!-- Header -->
+		<div th:replace="fragments/header :: header"></div>
+	</head>
+    
+    <body>
+    
+    	<!-- NavBar -->
+	    <div th:replace="fragments/header :: header-navbar-sigabem"></div>
+    
+    	<!-- Content -->
+    	<div class="container-fluid">
+    		
+   			<div align="center" th:if="${response}">
+	        	<div class="alert alert-success">
+	           		<p th:utext=${response}></p>
+	        	</div>
+	        </div>
+
+	        <div>
+	        	<h2>Notificações</h2>
+	        </div>
+	        <form method="post" th:object="${notification}" th:action="@{/notificacao/enviar}" >
+	            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	            	<label for="title"> Título: </label>
+	            	<input class="form-control" type="text" name="title" required="required" th:field="*{title}"/>
+	            </div>
+	            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	            	<label for="contents"> Mensagem: </label>
+	            	<input class="form-control" type="text" name="contents" required="required" th:field="*{contents}"/>
+	            </div>
+	            
+	            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		            <label for="notificationType">Tipo da notificação:</label>
+						
+					<select id="notificationType" th:field="*{notificationType}" class="form-control">
+						<option value="AVISO">AVISO</option>
+						<option value="EDUCAÇÃO">EDUCAÇÃO</option>
+						<option value="APAC">APAC</option>
+					</select>
+	            </div>
+	            
+	            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	            	<label for="remittee">Grupos de deficientes:</label>
+					
+					<select id="remittee" th:field="*{remittee}" class="form-control">
+						<option value="TODOS">TODOS</option>
+						<option value="VISUAL">VISUAL</option>
+						<option value="FISICA">FISICA</option>
+						<option value="MULTIPLA">MULTIPLA</option>
+						<option value="AUDITIVA">AUDITIVA</option>
+						<option value="INTELECTUAL">INTELECTUAL</option>
+					</select> 
+	            </div>
+            	
+	            <div class="form-group col-lg-12">
+	            	<button type="submit" class="btn btn-success">Enviar</button>
+	            </div>
+	        </form>
+		</div>
+    </body>
+</html>

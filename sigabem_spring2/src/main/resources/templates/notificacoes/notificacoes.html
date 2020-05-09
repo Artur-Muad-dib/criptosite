@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap CSS -->
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src="/js/checkToken.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+        <link rel="stylesheet" href="/css/sigabem.css">
+        <link rel="stylesheet" href="/css/sidenav.css">
+
+        <title>SigaBem Map</title>
+    </head>
+    <body>
+    
+    	<!-- SideNav Bar -->
+	    <div th:replace="fragments/header :: body-sidenav"></div>
+	    
+        <div id="main">
+            <nav class="navbar navbar-dark bg-sigabem justify-content-between">
+                <span class="navbar-toggler-icon" id="toggle-icon" onclick="openNav()"></span>
+                <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
+                <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
+            </nav>
+
+            <div class="container">
+                <div style="display: flex ; justify-content: space-between; padding: 20px 0;">
+                    <h3 >Notificações</h3>
+                </div>
+                <form id="formNotificacao" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title"> Título: </label>
+                        <input class="form-control" id="title" type="text" name="title" required="required"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="contents"> Mensagem: </label>
+                        <input class="form-control" id="contents" type="text" name="contents" required="required"/>
+                    </div>
+                    
+                    <div class="form-group">
+			            <label for="notification_type">Tipo da notificação:</label>
+							
+						<select id="notification_type" class="form-control">
+							<option value="AVISO">AVISO</option>
+							<option value="EDUCAÇÃO">EDUCAÇÃO</option>
+							<option value="APAC">APAC</option>
+						</select>
+		            </div>
+		            
+		            <div class="form-group">
+		            	<label for="destinatarios">Grupos de deficientes:</label>
+						
+						<select id="destinatarios" class="form-control">
+							<option value="TODOS">TODOS</option>
+							<option value="VISUAL">VISUAL</option>
+							<option value="FISICA">FISICA</option>
+							<option value="MULTIPLA">MULTIPLA</option>
+							<option value="AUDITIVA">AUDITIVA</option>
+							<option value="INTELECTUAL">INTELECTUAL</option>
+						</select> 
+		            </div>
+		            
+		            <div class="form-group">
+		            	<label for="file"> Imagem: </label>
+                        <input class="form-control" id="file" type="file" name="file"/>
+		            </div>
+                    
+                    <div class="form-group">
+                        <button id="sendFormNotification" type="submit" class="btn btn-success">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS, then axios, then vue -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <!-- Optional JavaScript -->
+        <script src="/js/Navside.js"></script>
+        <script src="/js/notificacoes/notificacoes.js"></script>
+    </body>
+</html>    

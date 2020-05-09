@@ -1,0 +1,239 @@
+#mapid { 
+    height: 80vh; 
+    z-index: 0;
+}
+
+.loading{
+    position: absolute;
+    top: 48%;
+    left: 48%;
+    z-index: 100;
+    height: 50px;
+    width: 50px;
+}
+
+.containerMap{
+    position: relative;
+    transition: all 0.2s;
+
+
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: all .5s;
+  }
+
+.fade-enter, .fade-leave-to /* .fade-leave-active em versões anteriores a 2.1.8 */ {
+    opacity: 0;
+    right: -500px;
+
+}
+
+.estimativas{
+    margin-right: 10px;
+    width: 30%;
+    position: absolute;
+    top: 0;
+    right: 15px;
+    height: 80vh;
+    overflow-y: scroll;
+
+}
+
+.container-fluid{
+    width: 90%  !important;
+    
+}
+
+.grade{
+    position: relative;
+}
+
+.linha-item:hover{
+    background-color: #28D8A1 !important;
+    color: #fff;
+    cursor: default;
+}
+
+.linha-item-close:hover{
+    background-color: rgb(163, 34, 34);
+    color: #fff;
+    cursor: pointer;
+}
+
+.marginMap{
+    margin-right: 35%;
+    
+}
+
+.checkBoxes{
+  color: white;
+  padding: 7px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  min-width: fit-content;
+ 
+}
+
+#checkBoxes{
+  display: flex;
+  overflow-x: scroll;
+}
+
+
+
+
+
+
+  /* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  margin-bottom: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  height: 9px;
+  width: 9px;
+}
+
+
+/* Filter options*/
+.filterOptions{
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+}
+
+.filterOptions .filterOption{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.option{
+  display: flex;
+  flex-direction: row;
+}
+
+.optionAge p{
+  margin-bottom: 0;
+}
+
+.optionAge input[type = "number"]{
+  width: 70px;
+  height: 25px;
+  border-radius: 5px;
+  padding: 5px;
+  border-width: 0;
+  border: 1px solid grey;
+  margin: 0 5px;
+}
+
+.optionSex label, .optionSex input[type = "checkbox"]{
+  margin-bottom: 0;
+}
+
+.optionSex input[type = "checkbox"]{
+  margin-left: 10px;
+  margin-right: 3px;
+}
+
+.optionSex{
+  align-items: center;
+}
+
+.optionDefict, .optionBairros{
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+}
+
+.deficits, .bairros{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 1px solid rgb(51, 51, 51);
+}
+
+.deficits label, .deficits input[type = "checkbox"], 
+.bairros label, .bairros input[type = "checkbox"]
+ {
+  margin-bottom: 0;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.dropdown-menu{
+  max-height: 500px !important;
+  overflow: scroll;
+  padding: 0;
+}
+
+.deficits label, .bairros label{
+  text-align: end;
+}
+
+.textDrop{
+  display: block;
+}
+
+
+.deficits label{
+  color: white;
+
+}
+
+
+.violet{
+  background-color: #9C2BCB;
+}
+.blue{
+  background-color: #2A81CB;
+}
+.red{
+  background-color: #CB2B3E;
+}
+.green{
+  background-color: #2AAD27;
+}
+.orange{
+  background-color: #CB8427;
+}
+
+
+
+.info {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  text-align: end;
+}
+.info h4 {
+  margin: 0 0 5px;
+  color: #777;
+}
