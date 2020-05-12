@@ -1,88 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
-        
-        <script th:src="@{/js/checkToken.js}"></script>
-        <link rel="stylesheet" th:href="@{/css/sigabem.css}">
-        <link rel="stylesheet" th:href="@{/css/sidenav.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script th:src="@{/js/services/apiSigabem.js}"></script>
 
-        <title>SigaBem Map</title>
-    </head>
-    <body>
-        <!-- SideNav Bar -->
-	    <div th:replace="fragments/header :: body-sidenav"></div>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    />
 
-        <div id="main">
-            <nav class="navbar navbar-dark bg-sigabem justify-content-between">
-                <span class="navbar-toggler-icon" id="toggle-icon" onclick="openNav()"></span>
-                <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
-                <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
-            </nav>
+    <script th:src="@{/js/checkToken.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/sigabem.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidenav.css}" />
 
-            <div class="container-fluid" id="app">
-                <div style="display: flex ; justify-content: space-between; padding: 20px 0;">
-                    <h3 >Reclamações</h3>
-                    <button type="button" class="btn btn-outline-success" @click='downloadCSV()' >Baixar reclamações</button>
-                </div>
-                <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Data</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">Irregularidade</th>
-                        <th scope="col">Empresa</th>
-                        <th scope="col">Linha</th>
-                        <th scope="col">Ônibus</th>
-                        <th scope="col">Parada</th>
-                        <th scope="col">Demanda</th>
-                        <th scope="col">CPF</th>
-                        <th scope="col">E-MAIL</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Deficiência</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(demand, index) in demands" v-bind:key="demand.id">
-                        <th scope="row">{{demand.id}}</th>
-                        <td>{{new Date(demand.data_reclamacao).toLocaleDateString()}}</td>
-                        <td>{{demand.descricao_reclamacao}}</td>
-                        <td>{{demand.irragularidade}}</td>
-                        <td>{{demand.nome_empresa}}</td>
-                        <td>{{demand.numero_linha}}</td>
-                        <td>{{demand.numero_onibus}}</td>
-                        <td>{{demand.numero_parada}}</td>
-                        <td>{{demand.tipo_demand}}</td>
-                        <td>{{demand.user.cpf}}</td>
-                        <td>{{demand.user.email}}</td>
-                        <td>{{demand.user.telefone}}</td>
-                        <td>{{demand.user.tipo_deficiencia}}</td>
-                      </tr> 
-                    </tbody>
-                  </table>
-            </div>
+    <title>SigaBem Map</title>
+  </head>
+  <body>
+    <!-- SideNav Bar -->
+    <div th:replace="fragments/header :: body-sidenav"></div>
+
+    <div id="main">
+      <nav class="navbar navbar-dark bg-sigabem justify-content-between">
+        <span
+          class="navbar-toggler-icon"
+          id="toggle-icon"
+          onclick="openNav()"
+        ></span>
+        <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
+        <a
+          href="http://www.granderecife.pe.gov.br/sitegrctm/"
+          class="text-light"
+          >GRANDE RECIFE</a
+        >
+      </nav>
+
+      <div class="container-fluid" id="app">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+          "
+        >
+          <h3>Reclamações</h3>
+          <button
+            type="button"
+            class="btn btn-outline-success"
+            @click="downloadCSV()"
+          >
+            Baixar reclamações
+          </button>
         </div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Data</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Irregularidade</th>
+              <th scope="col">Empresa</th>
+              <th scope="col">Linha</th>
+              <th scope="col">Ônibus</th>
+              <th scope="col">Parada</th>
+              <th scope="col">Demanda</th>
+              <th scope="col">CPF</th>
+              <th scope="col">E-MAIL</th>
+              <th scope="col">Telefone</th>
+              <th scope="col">Deficiência</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(demand, index) in demands" v-bind:key="demand.id">
+              <th scope="row">{{demand.id}}</th>
+              <td>{{new Date(demand.data_reclamacao).toLocaleDateString()}}</td>
+              <td>{{demand.descricao_reclamacao}}</td>
+              <td>{{demand.irragularidade}}</td>
+              <td>{{demand.nome_empresa}}</td>
+              <td>{{demand.numero_linha}}</td>
+              <td>{{demand.numero_onibus}}</td>
+              <td>{{demand.numero_parada}}</td>
+              <td>{{demand.tipo_demand}}</td>
+              <td>{{demand.user.cpf}}</td>
+              <td>{{demand.user.email}}</td>
+              <td>{{demand.user.telefone}}</td>
+              <td>{{demand.user.tipo_deficiencia}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
+    <!-- jQuery first, then Popper.js, then Bootstrap JS, then axios, then vue -->
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
 
-
-
-
-        <!-- jQuery first, then Popper.js, then Bootstrap JS, then axios, then vue -->
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-        <!-- Optional JavaScript -->
-        <script th:src="@{/js/Navside.js}"></script>
-        <script th:src="@{/js/reclamacoes/reclamacoes.js}"></script>
-    </body>
-</html>    
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- Optional JavaScript -->
+    <script th:src="@{/js/Navside.js}"></script>
+    <script th:src="@{/js/reclamacoes/reclamacoes.js}"></script>
+  </body>
+</html>

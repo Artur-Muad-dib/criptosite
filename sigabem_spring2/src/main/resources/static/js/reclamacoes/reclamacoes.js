@@ -1,89 +1,83 @@
 var app = new Vue({
-    el: '#app',
+  el: "#app",
 
-    data: {
-        api: axios.create({
-            baseURL: 'http://200.133.17.12:3000'
+  data: {
+    api: apiSigabem,
+
+    tk: localStorage.getItem("SBTK"),
+
+    demands: [],
+  },
+
+  methods: {
+    convertArrayOfObjectsToCSV(args) {
+      var result, ctr, keys, columnDelimiter, lineDelimiter, data;
+
+      data = args.data || null;
+      if (data == null || !data.length) {
+        return null;
+      }
+
+      columnDelimiter = ",";
+      lineDelimiter = "\n";
+
+      keys = Object.keys(data[0]);
+
+      result = "";
+      result += keys.join(columnDelimiter);
+      result += lineDelimiter;
+
+      data.forEach(function (item) {
+        ctr = 0;
+        keys.forEach(function (key) {
+          if (ctr > 0) result += columnDelimiter;
+
+          result += item[key];
+          ctr++;
+        });
+        result += lineDelimiter;
+      });
+
+      return result;
+    },
+
+    downloadCSV() {
+      var data, filename, link;
+      var csv = this.convertArrayOfObjectsToCSV({
+        data: this.demands.map((i) => {
+          Object.assign(i, i.user);
+          delete i.user;
+          return i;
         }),
+      });
+      if (csv == null) return;
 
-        tk: localStorage.getItem('SBTK'),
+      filename = "export.csv";
 
-        demands: [],
+      if (!csv.match(/^data:text\/csv/i)) {
+        csv = "data:text/csv;charset=utf-8," + csv;
+      }
+      data = encodeURI(csv);
 
-
-
+      link = document.createElement("a");
+      link.setAttribute("href", data);
+      link.setAttribute("download", filename);
+      link.click();
     },
+  },
 
-    methods:{
-        convertArrayOfObjectsToCSV(args) {  
-            var result, ctr, keys, columnDelimiter, lineDelimiter, data;
-    
-            data = args.data || null;
-            if (data == null || !data.length) {
-                return null;
-            }
-    
-            columnDelimiter = ',';
-            lineDelimiter = '\n';
-    
-            keys = Object.keys(data[0]);
-    
-            result = '';
-            result += keys.join(columnDelimiter);
-            result += lineDelimiter;
-    
-            data.forEach(function(item) {
-                ctr = 0;
-                keys.forEach(function(key) {
-                    if (ctr > 0) result += columnDelimiter;
-    
-                    result += item[key];
-                    ctr++;
-                });
-                result += lineDelimiter;
-            });
-    
-            return result;
-        },
+  mounted() {
+    const config = {
+      headers: { Authorization: `Bearer ${this.tk}` },
+    };
 
-        downloadCSV() {  
-            var data, filename, link;
-            var csv = this.convertArrayOfObjectsToCSV({
-                data: this.demands.map(i =>{Object.assign(i, i.user); delete i.user; return i})
-            });
-            if (csv == null) return;
-    
-            filename = 'export.csv';
-    
-            if (!csv.match(/^data:text\/csv/i)) {
-                csv = 'data:text/csv;charset=utf-8,' + csv;
-            }
-            data = encodeURI(csv);
-    
-            link = document.createElement('a');
-            link.setAttribute('href', data);
-            link.setAttribute('download', filename);
-            link.click();
-        },
+    console.log(config);
 
-
-    },
-
-    mounted(){
-        const config = {
-            headers: {Authorization: `Bearer ${this.tk}`}
-        };
-
-        console.log(config)
-
-        this.api.post("demand/find",{},
-        config)
-        .then(resp =>{
-            this.demands = resp.data.demand
-             console.log(this.demands)
-        })
-        .catch(resp => {
-            console.log(resp)
-        })
-    }
-})
+    this.api
+      .post("demand/find", {}, config)
+      .then((resp) => {
+        this.demands = resp.data.demand;
+      })
+      .catch((resp) => {});
+  },
+});
