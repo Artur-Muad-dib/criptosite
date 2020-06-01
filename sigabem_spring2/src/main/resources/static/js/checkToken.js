@@ -6,13 +6,13 @@ const config = {
 
 function redirecionar(){
     alert("Usuario não valido");
-    window.location.href = "/login";
+    window.location.href = "/sigabem/login";
 }
 
 if(!tk){
     redirecionar();
 }else{
-    axios.get("http://200.133.17.12:3000/auth/me", config).then(resp =>{
+    apiSigabem.get("/auth/me", config).then(resp =>{
         if(resp.data.role != "ADMIN"){
             redirecionar();
         }
