@@ -42,8 +42,11 @@ var app = new Vue({
 				try{
 					
 					this.api.post("/notification", formData, config).then((response) => {
-						console.log(response);
-						alert(response);
+						if(response.status == 201){
+							alert(response.data.message);
+						} else {
+							alert(response.data.error);
+						}
 				    }). catch((error) => {
 				    	console.log(error);
 				    	alert(error);
