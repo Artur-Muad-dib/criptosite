@@ -11,7 +11,8 @@ var app = new Vue({
 		file: null,
 		api: axios.create({
 		    baseURL: "http://200.133.17.12:3000" //base da url da api
-		})
+		}),
+		linhaSelecionada: null,
 	 },
 	 
 	 watch: {
@@ -31,6 +32,7 @@ var app = new Vue({
 			    formData.append('contents', this.contents);
 			    formData.append('notification_type', this.notification_type);
 			    formData.append('destinatarios', this.destinatarios);
+				formData.append('line', this.linhaSelecionada);
 			    formData.append('file', this.file);
 			    
 			    let config = {
