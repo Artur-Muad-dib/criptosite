@@ -73,6 +73,18 @@
 						</select> 
 		            </div>
 		            
+					<div class="form-group">
+		            	<label for="linha">Linhas favoritadas:</label>
+						<div v-if="linhas.length == 0">
+							<div class="alert alert-warning" role="alert">Nenhuma linha foi favoritada ainda.</div>
+						</div>
+						<div v-else>
+							<select id="linha" v-model="linhaSelecionada" class="form-control">
+								<option v-for="linha in linhas" :value="linha.numero_linha">{{linha.numero_linha}}</option>
+							</select> 
+						</div>
+		            </div>
+					
 		            <div class="form-group">
 		            	<label for="file"> Imagem: </label>
                         <input class="form-control" v-on:change="handleFile()" ref="file" id="file" type="file" name="file"/>
