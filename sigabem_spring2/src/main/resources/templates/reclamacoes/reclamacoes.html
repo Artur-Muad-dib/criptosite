@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,11 +37,9 @@
           onclick="openNav()"
         ></span>
         <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
-        <a
-          href="http://www.granderecife.pe.gov.br/sitegrctm/"
-          class="text-light"
-          >GRANDE RECIFE</a
-        >
+        <a href="/sigabem/login" onclick="localStorage.clear()">
+          <button type="button" class="btn btn-secondary">Log-Out</button>
+        </a>
       </nav>
 
       <div class="container-fluid" id="app">
@@ -60,6 +58,27 @@
           >
             Baixar reclamações
           </button>
+        </div>
+        <div class="filtersWrapp">
+          <div>
+            <label for="usr">Data Inicial:</label>
+            <input type="date"  placeholder="dd-mm-yyyy" class="form-control" v-model="initialDate">
+          </div>
+          <div>
+            <label for="usr">Data Final:</label>
+            <input type="date" class="form-control" v-model="finalDate">
+          </div>
+          <div>
+            <label for="sel1">Tipo de Feedback:</label>
+            <select class="form-control" v-model="typeFeedback" value="Todos">
+              <option>Todos</option>
+              <option>Reclamação</option>
+              <option>Sugestão</option>
+              <option>Elogio</option>
+            </select>
+          </div>
+
+          <button type="button" class="btn btn-success" v-on:click="findDemands">Filtrar</button>
         </div>
         <table class="table table-hover">
           <thead>
@@ -80,9 +99,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(demand, index) in demands" v-bind:key="demand.id">
+            <tr v-for="(demand, index) in demandsShow" v-bind:key="demand.id">
               <th scope="row">{{demand.id}}</th>
-              <td>{{new Date(demand.data_reclamacao).toLocaleDateString()}}</td>
+              <td>{{demand.data_reclamacao.toLocaleDateString('pt-BR')}}</td>
               <td>{{demand.descricao_reclamacao}}</td>
               <td>{{demand.irragularidade}}</td>
               <td>{{demand.nome_empresa}}</td>

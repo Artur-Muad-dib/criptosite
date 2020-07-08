@@ -63,4 +63,9 @@ public class WebController {
     public String showReclamacoes() {
         return "reclamacoes/reclamacoes";
     }
+
+    @GetMapping("/historico")
+    public String showHistorico() {
+        return "historico/historico";
+    }
 }

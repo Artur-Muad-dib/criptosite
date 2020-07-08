@@ -25,14 +25,15 @@
     	<nav th:fragment="header-navbar-sigabem" class="navbar navbar-dark bg-sigabem justify-content-between">
             <span class="navbar-toggler-icon" id="toggle-icon" onclick="openNav()"></span>
             <a class="navbar-brand text-light m-auto" th:href="@{/}"> SigaBem</a>
-            <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">GRANDE RECIFE</a>
+            <a href="http://www.granderecife.pe.gov.br/sitegrctm/" class="text-light">Log-Out</a>
         </nav>
         
         <div th:fragment="body-sidenav" id="Sidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="/sigabem/mapManager">Mapa</a>
             <a href="/sigabem/reclamacoes">Reclamações</a>
-            <a href="/sigabem/notificacoes">Notificações</a>
+			<a href="/sigabem/notificacoes">Notificações</a>
+			<a href="/sigabem/historico">Historico de notificações</a>
             <a href="/sigabem/gerenciador">Gerenciar administradores</a>
         </div>
     

@@ -30,3 +30,29 @@ nav{
 	margin: 10px;
 	width: auto;
 }
+
+.filtersWrapp{
+	display: flex;
+	flex-direction: row;
+	white-space: nowrap;
+	justify-content: space-evenly;
+	align-items: flex-end;
+	padding: 20px 30px;
+}
+
+.filtersWrapp div, .filtersWrapp button{
+	width: 250px;
+}
+
+
+.historicNotificationsWrapp{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+.notificationCard{
+	margin: 10px;
+}

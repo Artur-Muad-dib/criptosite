@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script th:src="@{/js/services/apiSigabem.js}"></script>
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    />
+
+    <script th:src="@{/js/checkToken.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/sigabem.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidenav.css}" />
+
+    <title>SigaBem Map</title>
+  </head>
+  <body>
+    <!-- SideNav Bar -->
+    <div th:replace="fragments/header :: body-sidenav"></div>
+
+    <div id="main">
+      <nav class="navbar navbar-dark bg-sigabem justify-content-between">
+        <span
+          class="navbar-toggler-icon"
+          id="toggle-icon"
+          onclick="openNav()"
+        ></span>
+        <a class="navbar-brand text-light m-auto" href="#"> SigaBem</a>
+        <a href="/sigabem/login" onclick="localStorage.clear()">
+          <button type="button" class="btn btn-secondary">Log-Out</button>
+        </a>
+      </nav>
+
+      <div class="container-fluid" id="app">
+        <div
+          style="
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            padding: 20px 0;
+          "
+        >
+            <h3 style="width: 100%;">Historico de Notificações</h3>
+            <div  class="historicNotificationsWrapp">
+                <div v-for="(notification, index) in notifications" v-bind:key="notification.id" class="card notificationCard" style="width: 18rem;">
+                    <!-- <img class="card-img-top" v-bind:src="`http://200.133.17.12:3000/notification/image/${notification.notification_image}`" alt="Card image cap"> -->
+                    <div class="card-body">
+                      <h3 class="card-title">{{notification.title}}</h3>
+                      <p class="card-text">{{notification.contents}}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><strong>Usuario</strong>: {{notification.user.nome}}</li>
+                      <li class="list-group-item"><strong>Tipo</strong>: {{notification.notification_type}}</li>
+                      <li class="list-group-item"><strong>Destinatarios</strong>: {{notification.destinatarios}}</li>
+                      <li class="list-group-item"><strong>Data</strong>: {{(new Date(notification.data_notificacao)).toLocaleDateString('pt-BR')}}</li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS, then axios, then vue -->
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- Optional JavaScript -->
+    <script th:src="@{/js/Navside.js}"></script>
+    <script th:src="@{/js/historico/historico.js}"></script>
+  </body>
+</html>
