@@ -56,3 +56,25 @@ nav{
 .notificationCard{
 	margin: 10px;
 }
+
+.notificationImageWrapper{
+	height: 200px; 
+	overflow: hidden; 
+	display: flex; 
+	align-items: center; 
+	justify-content: center;
+}
+
+.notificationImage{
+	height: 100%; 
+}
+
+
+.filtersHistoricoWrapp{
+	display: flex;
+	flex-direction: row;
+	white-space: nowrap;
+	justify-content: space-evenly;
+	align-items: flex-end;
+	padding: 20px 30px;
+}

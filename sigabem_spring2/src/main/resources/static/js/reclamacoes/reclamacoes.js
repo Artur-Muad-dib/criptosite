@@ -47,7 +47,7 @@ var app = new Vue({
       let max_dt = all_dates[0]
       all_dates.forEach(function(dt, index)
         {
-        if (  dt  > max_dt)
+        if (  dt  >= max_dt)
         {
           max_dt = dt;
         }
@@ -59,7 +59,7 @@ var app = new Vue({
       let min_dt = all_dates[0]
       all_dates.forEach(function(dt, index)
         {
-          if (  dt  < min_dt)
+          if (  dt  <= min_dt)
           {
             min_dt = dt;
           }

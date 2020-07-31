@@ -52,9 +52,69 @@
           "
         >
             <h3 style="width: 100%;">Historico de Notificações</h3>
+
+            <div class="filtersHistoricoWrapp">
+              <div>
+                <label for="usr">Data Inicial:</label>
+                <input type="date"  placeholder="dd-mm-yyyy" class="form-control" v-model="initialDate"> 
+              </div>
+              <div>
+                <label for="usr">Data Final:</label>
+                <input type="date" class="form-control"  v-model="finalDate">
+              </div>
+              <div>
+                <label>
+                  Tipo de Notificação:
+                </label>
+                <select 
+                  class="form-control"
+                  v-model="typeNotification" 
+                  value="TODOS"
+                >
+                  <option>TODOS</option>
+                  <option>AVISO</option>
+                  <option>EDUCAÇÃO</option>
+                  <option>APAC</option>
+                  <option>PREVISAO APAC</option>
+                </select>
+              </div>
+              <div>
+                <label for="sel1">Destinatarios:</label>
+                <select 
+                  class="form-control"
+                  v-model="typeGroup" 
+                  value="TODOS"
+                >
+                  <option>TODOS</option>
+                  <option>VISUAL</option>
+                  <option>FISICA</option>
+                  <option>INTELECTUAL</option>
+                  <option>MULTIPLA</option>
+                  <option>AUDITIVA</option>
+                </select>
+              </div>
+    
+              <button 
+                type="button" 
+                class="btn btn-success"
+                v-on:click="findNotifications"
+              >Filtrar</button>
+            </div>
+
+            <h3 v-if="loading">Carregando historico...</h3>
+
             <div  class="historicNotificationsWrapp">
-                <div v-for="(notification, index) in notifications" v-bind:key="notification.id" class="card notificationCard" style="width: 18rem;">
-                    <!-- <img class="card-img-top" v-bind:src="`http://200.133.17.12:3000/notification/image/${notification.notification_image}`" alt="Card image cap"> -->
+                <div v-for="(notification, index) in showNotifications" v-bind:key="notification.id" class="card notificationCard" style="width: 18rem;">
+                  <div 
+                    class="notificationImageWrapper" 
+                    v-if="notification.notification_image" 
+                  >
+                    <img 
+                        class="img-fluid notificationImage"
+                        v-bind:src="notification.notification_image" 
+                        alt="Imagem não encontrada"
+                      >
+                  </div>  
                     <div class="card-body">
                       <h3 class="card-title">{{notification.title}}</h3>
                       <p class="card-text">{{notification.contents}}</p>
@@ -65,7 +125,7 @@
                       <li class="list-group-item"><strong>Destinatarios</strong>: {{notification.destinatarios}}</li>
                       <li class="list-group-item"><strong>Data</strong>: {{(new Date(notification.data_notificacao)).toLocaleDateString('pt-BR')}}</li>
                     </ul>
-                  </div>
+                </div>
             </div>
         </div>
       </div>

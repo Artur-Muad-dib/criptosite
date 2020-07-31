@@ -68,4 +68,9 @@ public class WebController {
     public String showHistorico() {
         return "historico/historico";
     }
+
+    @GetMapping("/changepassword")
+    public String showMudarSenha() {
+        return "changepassword/changepassword";
+    }
 }
