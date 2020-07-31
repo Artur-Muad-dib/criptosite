@@ -96,7 +96,7 @@ var app = new Vue({
 				 }
 			 };
 			 
-			 this.api.post('/distinct/findall', {}, config).then((result) => {
+			 this.api.post('/line/distinct/findall', {}, config).then((result) => {
 				 this.linhas = result;
 			 }).catch((error) => {
 			 	console.log("ERRO AO CARREGAR AS LINHAS FAVORITAS", error);
