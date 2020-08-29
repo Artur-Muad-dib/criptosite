@@ -69,8 +69,13 @@ public class WebController {
         return "historico/historico";
     }
 
-    @GetMapping("/changepassword")
+    @GetMapping("/reset-password")
     public String showMudarSenha() {
         return "changepassword/changepassword";
+    }
+
+    @GetMapping("/paradas-favoritadas")
+    public String showParadasFavoritadas() {
+        return "paradas-favoritadas/paradas-favoritadas";
     }
 }

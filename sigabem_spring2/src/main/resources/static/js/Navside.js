@@ -1,7 +1,7 @@
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
 function openNav() {
-	document.getElementById("Sidenav").style.width = "250px";
-	document.getElementById("main").style.marginLeft = "250px";
+	document.getElementById("Sidenav").style.width = "300px";
+	document.getElementById("main").style.marginLeft = "300px";
 	document.getElementById("toggle-icon").style.visibility = "hidden";
 }
   

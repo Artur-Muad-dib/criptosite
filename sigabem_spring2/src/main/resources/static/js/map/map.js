@@ -2,6 +2,11 @@ var app = new Vue({
   el: "#app",
 
   data: {
+
+    config: {
+      headers: { Authorization: `Bearer ${localStorage.getItem("SBTK")}` },
+    },
+
     stops: [],
     marcarTodos: false,
 
@@ -14,6 +19,7 @@ var app = new Vue({
     layerPCDs: "",
     layerCalcadas: "",
     layerMunicipios: "",
+    layerUsers: "",
 
     searchRadius: "350",
 
@@ -49,6 +55,12 @@ var app = new Vue({
     control: "",
 
     //icones
+    userIconTest: L.icon({
+      iconUrl: "/sigabem/images/user_local.png",
+      iconSize: [50, 50], // size of the icon
+      iconAnchor: [25, 50], // point of the icon which will correspond to marker's location
+      popupAnchor: [-3, 0], // point from which the popup should open relative to the iconAnchor
+    }),
     userIcon: L.icon({
       iconUrl: "/sigabem/images/user_local.png",
       iconSize: [50, 50], // size of the icon
@@ -68,6 +80,14 @@ var app = new Vue({
       iconAnchor: [8, 40], // point of the icon which will correspond to marker's location
       popupAnchor: [15, -20], // point from which the popup should open relative to the iconAnchor
     }),
+
+    AppUserIcon: L.icon({
+      iconUrl: "/sigabem/images/user.png",
+      iconSize: [50, 50], // size of the icon
+      iconAnchor: [8, 40], // point of the icon which will correspond to marker's location
+      popupAnchor: [15, -20], // point from which the popup should open relative to the iconAnchor
+    }),
+
     deficientsIcons: {
       AUDITIVA: "violet",
       INTELECTUAL: "blue",
@@ -418,6 +438,36 @@ var app = new Vue({
       );
     },
 
+    async getUsers() {
+      const { data: { found: { users } } }=  await apiSigabem.post("/users/find", {}, this.config)
+
+      const usersFilters = users.filter(user => (Boolean(Number(user.endereco.longitude)) && Boolean(Number(user.endereco.latitude))))
+
+      const usersMarkers = usersFilters.map((user) => {
+        return L.marker([ user.endereco.latitude, user.endereco.longitude ], {
+          icon: this.AppUserIcon,
+        })
+        .bindPopup(
+            `
+              <h4>${user.nome}</h4>
+              <h5>${user.email}</h5>
+              <strong>CPF:</strong> ${user.cpf}</br>
+              <strong>Deficiencia:</strong> ${
+                user.tipo_deficiencia
+              }
+              </br>
+            `
+          );
+
+        });
+
+        console.log(usersMarkers)
+
+        this.layerUsers.clearLayers();
+        this.layerUsers.addLayer(L.featureGroup(usersMarkers));
+
+    },
+
     async filtrarPCDs() {
       if (
         !(
@@ -516,6 +566,8 @@ var app = new Vue({
     //this.layerCalcadas = L.featureGroup([]).addTo(this.map);
     this.layerBairros = L.featureGroup([]).addTo(this.map);
     this.layerMunicipios = L.featureGroup([]).addTo(this.map);
+    this.layerUsers = L.featureGroup([]).addTo(this.map);
+
     this.info = L.control();
 
     this.info.onAdd = function (map) {
@@ -554,6 +606,7 @@ var app = new Vue({
     this.getLocation();
     this.getBairros();
     //this.getCalcadas();
+    this.getUsers();
     this.getMunicipios();
 
     let baseMaps = {
@@ -567,6 +620,7 @@ var app = new Vue({
       Bairros: this.layerBairros,
       Paradas: this.layerParadas,
       PCDs: this.layerPCDs,
+      Usuarios: this.layerUsers
     };
 
     this.control = L.control.layers(baseMaps, overlayMaps).addTo(this.map);

@@ -37,7 +37,7 @@ var app = new Vue({
         })
         this.demandsShow = this.demands.filter(demand =>
           demand.data_reclamacao >= new Date(this.initialDate) &&
-          demand.data_reclamacao <= new Date(this.finalDate) )
+          demand.data_reclamacao <= new Date(this.finalDate) ).reverse()
         
       })
       .catch((resp) => {});
@@ -137,11 +137,11 @@ var app = new Vue({
               data_reclamacao: new Date(deman.data_reclamacao)
             }
         })
-        this.demandsShow = this.demands; 
+        this.demandsShow = this.demands.reverse(); 
         dates = this.demands.map(demand => demand.data_reclamacao)
-        this.initialDate = this.min_date(dates).toISOString().substr(0, 10)
+        this.initialDate = this.min_date(dates)?.toISOString().substr(0, 10)
 
-        this.finalDate = this.max_date(dates).toISOString().substr(0, 10)
+        this.finalDate = this.max_date(dates)?.toISOString().substr(0, 10)
         this.typeFeedback = "Todos"
       })
       .catch((resp) => {});

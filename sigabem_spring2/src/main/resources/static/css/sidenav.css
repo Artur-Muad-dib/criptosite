@@ -22,6 +22,10 @@
     transition: 0.3s;
     cursor: pointer;
   }
+
+  .sidenav i {
+    margin-right: 15px;
+  }
   
   /* When you mouse over the navigation links, change their color */
   .sidenav a:hover {

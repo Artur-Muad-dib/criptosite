@@ -73,8 +73,8 @@ var app = new Vue({
       });
       this.showNotifications = this.notifications;
       let dates = this.notifications.map(not => not.data_notificacao)
-      this.initialDate = this.min_date(dates).toISOString().substr(0, 10)
-      this.finalDate = this.max_date(dates).toISOString().substr(0, 10)
+      this.initialDate = this.min_date(dates)?.toISOString().substr(0, 10)
+      this.finalDate = this.max_date(dates)?.toISOString().substr(0, 10)
       this.loading = false;
     },
   });
