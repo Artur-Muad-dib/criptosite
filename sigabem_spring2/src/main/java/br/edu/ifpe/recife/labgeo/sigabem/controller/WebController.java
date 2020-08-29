@@ -74,8 +74,8 @@ public class WebController {
         return "changepassword/changepassword";
     }
 
-    @GetMapping("/paradas-favoritadas")
+    @GetMapping("/linhas-favoritadas")
     public String showParadasFavoritadas() {
-        return "paradas-favoritadas/paradas-favoritadas";
+        return "linhas-favoritadas/linhas-favoritadas";
     }
 }
