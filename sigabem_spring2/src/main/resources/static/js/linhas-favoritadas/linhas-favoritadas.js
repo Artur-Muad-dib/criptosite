@@ -22,7 +22,6 @@ var app = new Vue({
             this.api
             .post("line/find/admin", {}, config)
             .then((resp) => {
-                console.log(resp.data)
                 this.stops = resp.data.map(stop => {
                     return {
                     ...stop, 
@@ -53,7 +52,6 @@ var app = new Vue({
             this.api
             .post("line/find/admin", filter , config)
             .then((resp) => {
-                console.log(resp.data)
                 this.stops = resp.data.map(stop => {
                     return {
                     ...stop, 

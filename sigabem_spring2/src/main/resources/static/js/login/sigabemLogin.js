@@ -12,7 +12,6 @@ $("#btnLogin").click(function () {
   apiSigabem
     .post("/auth/singin", req)
     .then((response) => {
-      console.log("response: ", response.data);
       localStorage.setItem("SBTK", response.data.token);
       window.location.href = "/sigabem/mapManager";
     })

@@ -17,7 +17,6 @@ $( "#btnLogin" ).click(function() {
       password: password
     }
  
-    console.log(req)
     api.post("/auth/singin", req)
     .then(response=>{
       localStorage.setItem('SBTK', response.data.token);

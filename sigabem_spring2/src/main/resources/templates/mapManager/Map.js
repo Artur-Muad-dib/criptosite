@@ -288,7 +288,6 @@ var app = new Vue({
         },
 
         redirecionar(){
-            console.log(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
             axios.get(`https://nominatim.openstreetmap.org/?addressdetails=1&q=${this.pesquisa}&format=json&limit=1`)
             .then(res =>{
                 let locali = {
@@ -337,7 +336,6 @@ var app = new Vue({
                     count +=`${item._id} ${item.logradouro} ${item.bairro}\n`
                 }
             })
-            console.error(count)
             this.layerCalcadas.clearLayers();
             this.layerCalcadas.addLayer(L.layerGroup(layer))
 
@@ -449,7 +447,6 @@ var app = new Vue({
                 "deficit": this.deficitsSelect 
             }
 
-            console.log(filter);
 
             let pcds = await axios.post('http://200.133.17.12:3001/pcd', filter)
             pcds = pcds.data.map(pcd =>  {

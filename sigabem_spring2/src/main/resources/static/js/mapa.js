@@ -107,7 +107,6 @@ function getCoordenadasParadas(responseLinhas){
 				}
 		}); 
 	})).then(function(lista){
-		console.log(lista);
 		adicionarCamada(lista);
 	});
 }

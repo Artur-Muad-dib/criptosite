@@ -2,7 +2,6 @@ const api = axios.create({
     baseURL: "http://200.133.17.12:3000" //base da url openSignal
 });
 
-console.log("localStorage.getItem('SBTK'): ", localStorage.getItem('SBTK'));
 
 $( "#sendFormNotification" ).click(function (ev){
 
@@ -28,8 +27,6 @@ $( "#sendFormNotification" ).click(function (ev){
     };
 
 	api.post("/notification", formData, config).then((response) => {
-		console.log(response);
     }). catch((error) => {
-    	console.log(error);
     });
 });

@@ -50,7 +50,6 @@ var app = new Vue({
 							alert(response.data.error);
 						}
 				    }). catch((error) => {
-				    	console.log(error);
 				    	alert(error);
 				    });
 				}catch{
@@ -99,7 +98,6 @@ var app = new Vue({
 			 this.api.post('/line/distinct/findall', {}, config).then((result) => {
 				 this.linhas = result;
 			 }).catch((error) => {
-			 	console.log("ERRO AO CARREGAR AS LINHAS FAVORITAS", error);
 			 });
 		 }
 		 
@@ -108,21 +106,6 @@ var app = new Vue({
 	 mounted() {
 	 
 		 this.getFavoritedLines();
-		 
-//		 try{
-//			 this.linhas = axios.get('http://200.238.105.143:85/public/recife/lines').then((result) => {
-////					 this.linhas = axios.get('http://200.133.17.12:3001/public/recife/lines').then((result) => {
-//				 this.linhas = result;
-//			 }).catch((error) => {
-//				 this.errors.push('Não foi possível carregar as linhas de ônibus.');
-//			 });
-//		 }catch{
-//			 alert("Ocorreu um erro no serviço de paradas");
-//			 this.loading = false
-//			 return
-//		 } finally{
-//			 console.log("LINHAS: ", this.linhas);
-//		 }
-	 }
+	}
 	
 });

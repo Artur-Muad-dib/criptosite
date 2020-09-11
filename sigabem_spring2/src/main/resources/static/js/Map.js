@@ -222,8 +222,6 @@ var app = new Vue({
             lon: res.data[0].lon,
           };
           this.location = locali;
-          console.log(locali);
-          console.log(res);
         });
     },
 
@@ -243,7 +241,6 @@ var app = new Vue({
                   }).bindPopup(persona.attributes.user_nome_)
                 );
               } catch {
-                console.warn(persona.attributes.user_nome_);
               }
             }
           });

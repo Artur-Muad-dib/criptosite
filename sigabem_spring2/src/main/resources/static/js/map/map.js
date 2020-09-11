@@ -349,7 +349,6 @@ var app = new Vue({
           count += `${item._id} ${item.logradouro} ${item.bairro}\n`;
         }
       });
-      console.error(count);
       this.layerCalcadas.clearLayers();
       this.layerCalcadas.addLayer(L.layerGroup(layer));
     },
@@ -461,7 +460,6 @@ var app = new Vue({
 
         });
 
-        console.log(usersMarkers)
 
         this.layerUsers.clearLayers();
         this.layerUsers.addLayer(L.featureGroup(usersMarkers));
