@@ -81,7 +81,7 @@
 						</div>
 						<div v-else>
 							<select id="linha" v-model="linhaSelecionada" class="form-control">
-								<option v-for="linha in linhas" :value="linha.numero_linha">{{linha.numero_linha}}</option>
+								<option v-for="linha in linhas" v-bind:value="linha.numero_linha">{{linha.numero_linha}}</option>
 							</select> 
 						</div>
 		            </div>

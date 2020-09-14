@@ -96,7 +96,7 @@ var app = new Vue({
 			 };
 			 
 			 this.api.post('/line/distinct/findall', {}, config).then((result) => {
-				 this.linhas = result;
+				this.linhas = result.data;
 			 }).catch((error) => {
 			 });
 		 }
