@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <!-- Impotação do axios e serviço -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <script th:src="@{/js/services/apiSigabem.js}"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Required meta tags -->
@@ -38,7 +39,7 @@
             th:src="@{/images/icon.png}"
             class="rounded mx-auto d-block icon"
             style="width: 100px;"
-            alt="Logotipo sigabem"
+            alt="Logo sigabem"
           />
           <div
             class="alert alert-danger alert-dismissible fade d-none"
@@ -86,9 +87,19 @@
               type="button"
               class="btn bg-sigabem text-light btn-LogSigabem"
               id="btnLogin"
+              disabled
+              title="Marque o captcha para fazer login"
             >
               Fazer login
             </button>
+
+            <div
+                    class="g-recaptcha mt-3"
+                    data-sitekey="6Lejm_oZAAAAAKXYBn8VemqFgOtoFd9ldW2iwNjJ"
+                    data-callback="recaptcha_callback"
+                    data-expired-callback="disableButton"
+                    data-error-callback="disableButton"
+            ></div>
           </form>
         </form>
       </div>

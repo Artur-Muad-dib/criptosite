@@ -18,6 +18,8 @@ $("#btnLogin").click(function () {
     .catch(() => {
       // Show the alert
       $("#errorResponse").removeClass("d-none").addClass("show");
+      disableButton();
+      grecaptcha.reset();
     });
 });
 
@@ -28,3 +30,12 @@ $(document).ready(function () {
 $("#errorResponseClose").click(function () {
   $("#errorResponse").removeClass("show").addClass("d-none");
 });
+
+
+function recaptcha_callback() {
+  $("#btnLogin").removeAttr("disabled").removeAttr('title');
+}
+
+function disableButton() {
+  $("#btnLogin").attr("title", "Marque o captcha para fazer login").prop("disabled",true);
+}
