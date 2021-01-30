@@ -26,10 +26,7 @@ public class NotificationController {
 	@PostMapping("/notificacao/enviar")
 	public ModelAndView sendNotification(@Valid Notification notification, HttpServletRequest httpServletRequest) {
 		String token = CookieUtil.getValue(httpServletRequest, Constants.JWT_TOKEN_COOKIE_NAME);
-		
-		if(token == null) {
-//			return userController.authenticate().addObject("not_logged", true);
-		}
+
 		String response = notificationService.sendNotification(notification);
 		
 		return sendNotification(httpServletRequest).addObject("response", response);
@@ -38,10 +35,6 @@ public class NotificationController {
 	@GetMapping("/notificacao/enviar")
 	public ModelAndView sendNotification(HttpServletRequest httpServletRequest) {
 		String token = CookieUtil.getValue(httpServletRequest, Constants.JWT_TOKEN_COOKIE_NAME);
-		
-		if(token == null) {
-//			return userController.authenticate().addObject("not_logged", true);
-		}
 		
 		ModelAndView mv = new ModelAndView("notificar");
 		mv.addObject("notification", new Notification());

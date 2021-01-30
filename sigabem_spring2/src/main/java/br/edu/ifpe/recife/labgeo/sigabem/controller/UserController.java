@@ -49,14 +49,5 @@ public class UserController {
 		
 		return mv;
 	}
-	
-	@PostMapping("/usuario/login")
-	public ModelAndView authenticate(@Valid User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-//		String response = userService.authenticate(user, httpServletResponse);
-//		
-//		return authenticate().addObject("response", response);
-		
-		return webController.showMap(httpServletRequest);
-	}
 
 }

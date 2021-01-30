@@ -10,7 +10,6 @@ var app = new Vue({
     stops: [],
     marcarTodos: false,
 
-    //Camadas
     map: "",
     markerUser: "",
     layerOpenStreet: "",
@@ -23,69 +22,61 @@ var app = new Vue({
 
     searchRadius: "350",
 
-    //localização
     location: {
       lat: -8.063169,
       lon: -34.871139,
     },
 
-    //configuração
     loading: false,
     pesquisa: "",
 
-    //config Age
     lowerAge: 5,
     upperAge: 45,
     maxAge: 100,
     minAge: 1,
 
-    //sexo
     sexos: [],
 
-    //deficits
     deficits: ["AUDITIVA", "INTELECTUAL", "VISUAL", "MULTIPLA", "FISICA"],
     deficitsSelect: [],
 
-    //bairros
     bairros: [],
     bairrosSelect: [],
 
-    //control
     info: "",
     control: "",
 
-    //icones
     userIconTest: L.icon({
       iconUrl: "/sigabem/images/user_local.png",
-      iconSize: [50, 50], // size of the icon
-      iconAnchor: [25, 50], // point of the icon which will correspond to marker's location
-      popupAnchor: [-3, 0], // point from which the popup should open relative to the iconAnchor
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+      popupAnchor: [-3, 0],
     }),
     userIcon: L.icon({
       iconUrl: "/sigabem/images/user_local.png",
-      iconSize: [50, 50], // size of the icon
-      iconAnchor: [25, 50], // point of the icon which will correspond to marker's location
-      popupAnchor: [-3, 0], // point from which the popup should open relative to the iconAnchor
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+      popupAnchor: [-3, 0],
     }),
     BusStopIcon: L.icon({
       iconUrl: "/sigabem/images/bus-stop.png",
-      iconSize: [50, 50], // size of the icon
-      iconAnchor: [8, 40], // point of the icon which will correspond to marker's location
-      popupAnchor: [15, -20], // point from which the popup should open relative to the iconAnchor
+      iconSize: [50, 50],
+      iconAnchor: [8, 40],
+      popupAnchor: [15, -20],
     }),
 
     CavaleteIcon: L.icon({
       iconUrl: "/sigabem/images/cavalete.png",
-      iconSize: [50, 50], // size of the icon
-      iconAnchor: [8, 40], // point of the icon which will correspond to marker's location
-      popupAnchor: [15, -20], // point from which the popup should open relative to the iconAnchor
+      iconSize: [50, 50],
+      iconAnchor: [8, 40],
+      popupAnchor: [15, -20],
     }),
 
     AppUserIcon: L.icon({
       iconUrl: "/sigabem/images/user.png",
-      iconSize: [50, 50], // size of the icon
-      iconAnchor: [8, 40], // point of the icon which will correspond to marker's location
-      popupAnchor: [15, -20], // point from which the popup should open relative to the iconAnchor
+      iconSize: [50, 50],
+      iconAnchor: [8, 40],
+      popupAnchor: [15, -20],
     }),
 
     deficientsIcons: {

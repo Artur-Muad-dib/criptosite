@@ -1,4 +1,3 @@
 const apiSigabem = axios.create({
-  baseURL: "http://200.133.17.12:3000",
-  //baseURL: "http://200.133.17.12:3000",
+  baseURL: "http://labgeo2.recife.ifpe.edu.br:3000",
 });

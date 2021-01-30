@@ -15,19 +15,7 @@ public class WebController {
 	
 	@Autowired
 	UserController userController;
-	
-	@GetMapping("/mapa")
-    public ModelAndView showMap(HttpServletRequest httpServletRequest) {
-		String token = CookieUtil.getValue(httpServletRequest, Constants.JWT_TOKEN_COOKIE_NAME);
-		
-		if(token == null) {
-//			return userController.authenticate();
-		}
-		
-		ModelAndView mv = new ModelAndView("mapa");
-		
-        return mv;
-    }
+
 	
 	@GetMapping("/")
 	public String showLoginRoot() {
