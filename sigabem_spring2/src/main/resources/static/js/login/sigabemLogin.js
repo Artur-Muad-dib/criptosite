@@ -1,3 +1,5 @@
+let captchaToken;
+
 $("#btnLogin").click(function () {
   let cpf = document.getElementById("impCpf").value;
   let password = document.getElementById("impPassword").value;
@@ -7,6 +9,7 @@ $("#btnLogin").click(function () {
   let req = {
     cpf: cpf,
     password: password,
+    captchaKey: captchaToken
   };
 
   apiSigabem
@@ -32,8 +35,9 @@ $("#errorResponseClose").click(function () {
 });
 
 
-function recaptcha_callback() {
+function recaptcha_callback(e) {
   $("#btnLogin").removeAttr("disabled").removeAttr('title');
+  captchaToken = e;
 }
 
 function disableButton() {
