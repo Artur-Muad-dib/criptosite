@@ -13,7 +13,7 @@ $("#btnLogin").click(function () {
   };
 
   apiSigabem
-    .post("/auth/singin", req)
+    .post("/auth/web/singin", req)
     .then((response) => {
       localStorage.setItem("SBTK", response.data.token);
       window.location.href = "/sigabem/mapManager";
