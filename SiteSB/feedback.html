@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+
+
+        }
+
+        header {
+            background-color: #79bda5;
+            color: white;
+            text-align: left;
+            padding: 10px 0;
+            box-shadow: 0 0 50px 0 rgba(0, 0, 0, 1);
+            text-shadow: 1 1 10px 0 rgba(0, 0, 0, 1);
+            font-size: 15px;
+        }
+
+        #logo {
+            width: 60px;
+            /* Largura aumentada */
+            height: 60px;
+            object-fit: cover;
+            /* Altura auto para manter proporção */
+            border-radius: 50%;
+            /* Borda circular */
+
+            /* Posiciona o elemento fora do fluxo normal */
+
+            /* Alinha verticalmente ao centro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-left: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <header> <img src="assets/logosimplificado.png" alt="Minha Figura" id="logo">
+        <h1>Sigabem: apoio ao embarque</h1>
+    </header>
+    <div class="container">
+        <aside>
+            <nav>
+                <ul>
+                    <li><a href="mapa.html">Mapa</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="notificacoes.html">Notificações</a></li>
+                    <li><a href="linhas-favoritas.html">Linhas Favoritadas</a></li>
+                    <li><a href="historico-notificacoes.html">Histórico de Notificações</a></li>
+                    <li><a href="gerenciar-administradores.html">Gerenciar Administradores</a></li>
+                    <li><a href="dashboard-pesquisa.html">Dashboard da Pesquisa</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+    </div>
+    <div class="mapa">
+        <div class="opcoes">
+            <input type="date" name="data" id="data">
+            <label>
+                <input type="radio" name="sexo" value="masculino"> Masculino
+            </label>
+            <label>
+                <input type="radio" name="sexo" value="feminino"> Feminino
+            </label>
+            <select name="deficiencia">
+                <option value="nenhuma">Nenhuma</option>
+                <option value="visual">Visual</option>
+                <option value="auditiva">Auditiva</option>
+                <option value="fisica">Física</option>
+                <option value="mental">Mental</option>
+            </select>
+            <p class="botao" id="pessoas">Procurar pessoas</p>
+        </div>
+    </div>
+</body>
+
+</html>

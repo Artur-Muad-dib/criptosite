@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            /* verde claro aproximado do amarelo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            width: 100%;
+            /* Faz o cabeçalho ocupar a largura total */
+            display: flex;
+            justify-content: flex-start;
+            /* Alinha o conteúdo à esquerda */
+            align-items: center;
+            /* Centraliza verticalmente o conteúdo */
+            background-color: #79bda5;
+            /* Cor de fundo para o cabeçalho */
+            padding: 10px 20px;
+            /* Espaçamento interno para estética */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Sombra para destaque */
+            position: fixed;
+            /* Fixa o cabeçalho no topo */
+            top: 0;
+            /* Posiciona no topo */
+            left: 0;
+            /* Alinha à esquerda */
+            z-index: 1000;
+            /* Garante que fique sobre outros elementos */
+
+            align-items: center;
+
+        }
+
+        h1 {
+            margin-left: 60px;
+            color: #ffffff;
+            font: bold;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 30px 40px 40px 40px;
+            /* Aumentado para mais espaço interno */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 350px;
+            /* Largura aumentada */
+        }
+
+        form {
+            width: 100%;
+            /* Garante que o formulário use toda a largura do container */
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 30px);
+            /* Ajuste para compensar o padding */
+            padding: 15px;
+            /* Padding aumentado para melhor visualização */
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-button {
+            width: calc(100% - 30px);
+            /* Ajuste para alinhar com os inputs */
+            padding: 15px;
+            /* Padding aumentado para melhor visualização */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            /* Remove sublinhado de links */
+            display: block;
+            /* Faz o link se comportar como um botão */
+            text-align: center;
+            /* Centraliza o texto no botão */
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            /* Margem aumentada para mais espaço */
+        }
+
+        #logo {
+            width: 60px;
+            /* Largura aumentada */
+            height: 60px;
+            object-fit: cover;
+            /* Altura auto para manter proporção */
+            border-radius: 50%;
+            /* Borda circular */
+
+            /* Posiciona o elemento fora do fluxo normal */
+
+            /* Alinha verticalmente ao centro */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header> <img src="assets/logosimplificado.png" alt="Minha Figura" id="logo">
+        <h1>Sigabem: apoio ao embarque</h1>
+    </header>
+    <div class="login-container">
+        <h2>Login</h2>
+        <div>
+
+            <input type="text" placeholder="CPF">
+            <input type="password" placeholder="Senha">
+            <a href="mapa.html" class="login-button">Entrar</a>
+        </div>
+        <div class="forgot-password">
+            <a href="#">Esqueceu sua senha?</a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <img src="assets/logosimplificado.png" alt="Minha Figura" id="logo">
+        <h1>Localização</h1>
+        <h2></h2>
+    </header>
+    <div class="container">
+        <aside>
+            <nav>
+                <ul>
+                    <li><a href="mapa.html">Mapa</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                    <li><a href="notificacoes.html">Notificações</a></li>
+                    <li><a href="linhas-favoritas.html">Linhas Favoritadas</a></li>
+                    <li><a href="historico-notificacoes.html">Histórico de Notificações</a></li>
+                    <li><a href="gerenciar-administradores.html">Gerenciar Administradores</a></li>
+                    <li><a href="dashboard-pesquisa.html">Dashboard da Pesquisa</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="mapa">
+            <div class="opcoes">
+
+                <label id="idade">Idade:
+                    <input type="number" id="idade_min" name="idade_min">
+                    <input type="number" id="idade_max" name="idade_max">
+                </label>
+
+                <label>
+                    <input type="radio" name="sexo" value="M"> Masculino
+                </label>
+                <label>
+                    <input type="radio" name="sexo" value="F"> Feminino
+                </label>
+                <select name="deficiencia">
+                    <option value="MULTIPLA">Multipla</option>
+                    <option value="VISUAL">Visual</option>
+                    <option value="AUDITIVA">Auditiva</option>
+                    <option value="FISICA">Física</option>
+                    <option value="INTELECTUAL">Intelectual</option>
+                </select>
+                <p class="botao" id="pessoas">Procurar pessoas</p>
+            </div>
+            <div id="map"></div>
+            <h2 class="pesquisa" id="paradas">Procurar paradas </h2>
+        </div>
+
+    </div>
+
+<script type="module" src="script.js"></script>
+<script type="module" src="Bairros_RMR_Sirgas2000.js"></script>
+<script type="module" src="PE_Municipios_2022.js"></script>
+<script type="module" src="teste.js"></script>
+
+</body>
+
+</html>
